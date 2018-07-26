@@ -42,3 +42,4 @@ skip_files:
   - run_tests
   - deploy
   - serve
+  - clean_imports
