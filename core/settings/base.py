@@ -4,6 +4,7 @@ import os
 from djangae.settings_base import *
 
 from core.boot import get_app_config
+
 config = get_app_config()
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
