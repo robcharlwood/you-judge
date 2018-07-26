@@ -1,0 +1,44 @@
+application: you-judge-app
+version: 0-0-1
+api_version: 1
+runtime: python27
+threadsafe: true
+
+libraries:
+- name: pycrypto
+  version: latest
+- name: ssl
+  version: 2.7.11
+
+builtins:
+- remote_api: on
+
+handlers:
+- url: /_ah/(mapreduce|queue|warmup|internalupload).*
+  script: core.wsgi.application
+  login: admin
+  secure: always
+
+- url: /.*
+  script: core.wsgi.application
+  login: admin
+  secure: always
+
+skip_files:
+  - manage.py
+  - README.md
+  - LICENSE
+  - install_deps
+  - \.git
+  - \.gitignore
+  - \.coveragerc
+  - \.coverage
+  - \.storage
+  - \.DS_Store
+  - (.*)\.pyc
+  - \.isort.cfg
+  - requirements
+  - sitepackages/dev*
+  - run_tests
+  - deploy
+  - serve

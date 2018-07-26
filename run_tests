@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if [ '$1' != '' ]; then
+    spec=$1
+else
+    spec=''
+fi
+
+find . -type f -name "*.pyc" -delete && coverage run manage.py test $spec --settings=core.settings.test
+coverage report

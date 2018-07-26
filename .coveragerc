@@ -1,0 +1,13 @@
+[report]
+include=
+    core/*
+omit=
+    manage.py
+    *settings*
+    *tests*
+    */sitepackages/*
+    */management/commands/*
+    core.app.py
+    core.wsgi.py
+    core.boot.py
+show_missing=True

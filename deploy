@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Runs appcfg.py update after prompting for the application name and version,
+# reading defaults from app.yaml.
+#
+# Any arguments are passed to appcfg.py e.g.
+# ./deploy --oauth2
+set -eu
+
+APPLICATION=$(grep -E '^application:' app.yaml | sed 's/application: *//')
+VERSION=$(grep -E '^version:' app.yaml | sed 's/version: *//')
+
+read -r -p "Application (default '$APPLICATION'): " user_application
+read -r -p "Version (default '$VERSION'): " user_version
+
+if [[ ! "$user_application" ]]; then
+    user_application="$APPLICATION"
+fi
+
+if [[ ! "$user_version" ]]; then
+    user_version="$VERSION"
+fi
+
+if [[ ! ("$user_version" && "$user_application") ]] ; then
+    echo "Please specify an application name and version for deployment."
+    exit 1
+fi
+
+echo "Deploying '$user_application' version '$user_version'."
+
+./sitepackages/dev/google_appengine/appcfg.py --application "$user_application" --version "$user_version" --no_cookies update .
+
+echo "Done! Grab yourself a beer you badass! 🍺🍺"
