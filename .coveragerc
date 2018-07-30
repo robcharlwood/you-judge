@@ -1,6 +1,7 @@
 [report]
 include=
     core/*
+    services/*
 omit=
     manage.py
     *settings*
