@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     # you judge apps
+    'accounts.app.AccountsConfig',
     'core.app.CoreConfig',
     'services.app.ServicesConfig',
 ]

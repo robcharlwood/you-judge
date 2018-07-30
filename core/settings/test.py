@@ -7,7 +7,9 @@ INSTALLED_APPS = INSTALLED_APPS + ['django_nose']
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 NOSE_ARGS = [
+    '--cover-package=accounts',
     '--cover-package=core',
+    '--cover-package=services',
     '--with-progressive',
     '--logging-level=CRITICAL',
     '--logging-clear-handlers',

@@ -1,5 +1,6 @@
 [report]
 include=
+    accounts/*
     core/*
     services/*
 omit=
