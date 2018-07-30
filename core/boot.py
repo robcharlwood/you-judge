@@ -37,6 +37,7 @@ def get_app_config():
         """
         secret_key = ndb.StringProperty()
         youtube_api_key = ndb.StringProperty()
+        cloud_nl_api_key = ndb.StringProperty()
 
     # set a random bunch of chars that we can create a secret key from
     chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
