@@ -2,7 +2,7 @@
 
 ## This project is intended for educational purposes only.
 
-An experimental app using NLTK to process user sentiment analysis on YouTube content and comments.
+An experimental app using Google's Natural Language processing to process user sentiment analysis on YouTube content and comments.
 
 ## Getting Started
 
