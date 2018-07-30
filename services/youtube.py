@@ -1,6 +1,6 @@
-from googleapiclient import discovery
-
 from django.conf import settings
+
+from googleapiclient import discovery
 
 
 class Client(object):
