@@ -3,6 +3,8 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib.staticfiles.views import serve
 
+from .views import DashboardView
+
 import session_csrf
 
 session_csrf.monkeypatch()
@@ -10,6 +12,7 @@ session_csrf.monkeypatch()
 
 urlpatterns = (
     url(r'^_ah/', include('djangae.urls')),
+    url(r'^$', DashboardView.as_view(), name='dashboard')
 )
 
 if settings.DEBUG:
