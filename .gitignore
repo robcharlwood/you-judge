@@ -24,6 +24,9 @@ nosetests.xml
 *.mo
 *.po
 
+# private files
+.api-keys.txt
+
 # appengine local
 .storage
 
