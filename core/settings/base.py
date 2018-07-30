@@ -112,3 +112,8 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 # API Keys
 YOUTUBE_API_KEY = config.youtube_api_key
 CLOUD_NATURAL_LANG_API_KEY = config.cloud_nl_api_key
+
+# Oauth2
+GOOGLE_OAUTH2_CLIENT_ID = config.oauth2_client_id
+GOOGLE_OAUTH2_CLIENT_SECRET = config.oauth2_client_secret
+GOOGLE_OAUTH2_SCOPES = ['openid', 'email', 'profile']

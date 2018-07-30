@@ -38,6 +38,8 @@ def get_app_config():
         secret_key = ndb.StringProperty()
         youtube_api_key = ndb.StringProperty()
         cloud_nl_api_key = ndb.StringProperty()
+        oauth2_client_id = ndb.StringProperty()
+        oauth2_client_secret = ndb.StringProperty()
 
     # set a random bunch of chars that we can create a secret key from
     chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
@@ -54,6 +56,8 @@ def get_app_config():
             entity.secret_key = get_random_string(50, chars)
             entity.youtube_api_key = 'Update me with your API Key!'
             entity.cloud_nl_api_key = 'Update me with your API key!'
+            entity.oauth2_client_id = 'Update me!'
+            entity.oauth2_client_secret = 'Update me!'
             entity.put()
         return entity
     return txn()
