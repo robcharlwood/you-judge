@@ -3,9 +3,9 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib.staticfiles.views import serve
 
-from .views import DashboardView
-
 import session_csrf
+
+from .views import DashboardView
 
 session_csrf.monkeypatch()
 
