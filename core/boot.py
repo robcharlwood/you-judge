@@ -51,7 +51,8 @@ def get_app_config():
         if not entity:
             entity = Config(key=key)
             entity.secret_key = get_random_string(50, chars)
-            entity.youtube_api_key = 'Update me with your YouTube API Key!'
+            entity.youtube_api_key = 'Update me with your API Key!'
+            entity.cloud_nl_api_key = 'Update me with your API key!'
             entity.put()
         return entity
     return txn()

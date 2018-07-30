@@ -110,3 +110,4 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 # API Keys
 YOUTUBE_API_KEY = config.youtube_api_key
+CLOUD_NATURAL_LANG_API_KEY = config.cloud_nl_api_key
