@@ -12,6 +12,7 @@ session_csrf.monkeypatch()
 
 urlpatterns = (
     url(r'^_ah/', include('djangae.urls')),
+    url(r'^accounts/', include('accounts.urls')),
     url(r'^$', DashboardView.as_view(), name='dashboard')
 )
 
