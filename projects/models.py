@@ -11,4 +11,4 @@ class Project(models.Model):
     modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return self.name
+        return u'{}'.format(self.name)
