@@ -2,6 +2,7 @@
 include=
     accounts/*
     core/*
+    dashboard/*
     services/*
 omit=
     manage.py

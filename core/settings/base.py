@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     # you judge apps
     'accounts.app.AccountsConfig',
     'core.app.CoreConfig',
+    'dashboard.app.DashboardConfig',
     'services.app.ServicesConfig',
 ]
 
