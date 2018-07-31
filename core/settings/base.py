@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'dashboard.app.DashboardConfig',
     'projects.app.ProjectsConfig',
     'services.app.ServicesConfig',
+    'videos.app.VideosConfig',
 ]
 
 MIDDLEWARE = [

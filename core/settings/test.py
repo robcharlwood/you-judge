@@ -12,6 +12,7 @@ NOSE_ARGS = [
     '--cover-package=dashboard',
     '--cover-package=projects',
     '--cover-package=services',
+    '--cover-package=videos',
     '--with-progressive',
     '--logging-level=CRITICAL',
     '--logging-clear-handlers',

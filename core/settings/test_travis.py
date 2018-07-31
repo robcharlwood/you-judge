@@ -6,6 +6,7 @@ NOSE_ARGS = [
     '--cover-package=dashboard',
     '--cover-package=projects',
     '--cover-package=services',
+    '--cover-package=videos',
     '--logging-level=CRITICAL',
     '--logging-clear-handlers',
     '-s'

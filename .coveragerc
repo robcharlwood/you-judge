@@ -5,6 +5,7 @@ include=
     dashboard/*
     projects/*
     services/*
+    videos/*
 omit=
     manage.py
     *settings*
