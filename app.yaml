@@ -28,6 +28,8 @@ skip_files:
   - README.md
   - LICENSE
   - install_deps
+  - \.api-keys.txt
+  - \.travis.yml
   - \.git
   - \.gitignore
   - \.coveragerc
