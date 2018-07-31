@@ -1,0 +1,21 @@
+# Config file for automatic testing at travis-ci.org
+language: python
+
+python:
+  - "2.7"
+
+before_script:
+  - wget https://storage.googleapis.com/appengine-sdks/featured/google_appengine_1.9.57.zip -nv
+  - unzip -q google_appengine_1.9.57.zip
+
+install:
+  - pip install coveralls
+  - pip install -r requirements/prod.txt
+  - pip install -r requirements/dev.txt
+
+script:
+  - export PATH=${PWD}/google_appengine:$PATH
+  - coverage run manage.py test --settings=core.settings.test
+
+after_success:
+  - coveralls
