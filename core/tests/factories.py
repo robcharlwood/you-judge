@@ -6,6 +6,7 @@ from django.utils import timezone
 import factory
 
 from projects.models import Project
+from videos.models import Video
 
 
 class MockCredentials(object):
@@ -53,3 +54,10 @@ class AuthenticatedUserFactory(UserFactory):
 class ProjectFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Project
+
+
+class VideoFactory(factory.django.DjangoModelFactory):
+    project = factory.SubFactory(ProjectFactory)
+
+    class Meta:
+        model = Video
