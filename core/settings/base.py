@@ -104,6 +104,10 @@ logging.getLogger().handlers[0].setFormatter(
     logging.Formatter('[%(module)s.%(funcName)s:%(lineno)s] %(message)s'))
 
 
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_SESSION_KEY = 'login_redirect_next_url'
+
 # session csrf settings
 ANON_ALWAYS = True
 
@@ -118,3 +122,14 @@ CLOUD_NATURAL_LANG_API_KEY = config.cloud_nl_api_key
 GOOGLE_OAUTH2_CLIENT_ID = config.oauth2_client_id
 GOOGLE_OAUTH2_CLIENT_SECRET = config.oauth2_client_secret
 GOOGLE_OAUTH2_SCOPES = ['openid', 'email', 'profile']
+GOOGLE_OAUTH2_FLOW_SESSION_KEY = 'oauth-flow'
+GOOGLE_OAUTH2_REDIRECT_URI = reverse_lazy('oauth_step_two')
+GOOGLE_OAUTH2_FLOWS = dict(
+    default=dict(
+        client_id=GOOGLE_OAUTH2_CLIENT_ID,
+        client_secret=GOOGLE_OAUTH2_CLIENT_SECRET,
+        scope=GOOGLE_OAUTH2_SCOPES,
+        user_agent='you-judge-app',
+        prompt='consent',
+    )
+)
