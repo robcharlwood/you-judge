@@ -1,5 +1,7 @@
 # YouJudge
 
+[![Build Status](https://travis-ci.com/robcharlwood/you-judge.svg?branch=master)](https://travis-ci.com/robcharlwood/you-judge.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/robcharlwood/you-judge/badge.svg?branch=master)](https://coveralls.io/github/robcharlwood/you-judge?branch=master)
+
 ## This project is intended for educational purposes only.
 
 An experimental app using Google's Natural Language processing to process user sentiment analysis on YouTube content and comments.
