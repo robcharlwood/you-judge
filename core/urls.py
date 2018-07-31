@@ -15,6 +15,6 @@ urlpatterns = (
     url(r'^$', DashboardView.as_view(), name='dashboard')
 )
 
-if settings.DEBUG:
+if settings.DEBUG:  # pragma: no cover
     urlpatterns += tuple(static(
         settings.STATIC_URL, view=serve, show_indexes=True))
