@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     'accounts.app.AccountsConfig',
     'core.app.CoreConfig',
     'dashboard.app.DashboardConfig',
-    'moments.app.MomentsConfig',
+    'projects.app.ProjectsConfig',
     'services.app.ServicesConfig',
 ]
 

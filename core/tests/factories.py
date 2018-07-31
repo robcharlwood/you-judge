@@ -5,6 +5,8 @@ from django.utils import timezone
 
 import factory
 
+from projects.models import Project
+
 
 class MockCredentials(object):
     """
@@ -46,3 +48,8 @@ class AuthenticatedUserFactory(UserFactory):
     refresh_token = True
     access_token = True
     token_expiry = factory.LazyFunction(token_expiry)
+
+
+class ProjectFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Project
