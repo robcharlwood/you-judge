@@ -2,6 +2,7 @@ import logging
 import os
 
 from djangae.settings_base import *
+from django.core.urlresolvers import reverse_lazy
 
 from core.boot import get_app_config
 
@@ -40,9 +41,9 @@ MIDDLEWARE = [
 
 # project django settings
 SECRET_KEY = config.secret_key
-AUTH_USER_MODEL = 'gauth_datastore.GaeDatastoreUser'
+AUTH_USER_MODEL = 'accounts.User'
 AUTHENTICATION_BACKENDS = [
-    'djangae.contrib.gauth_datastore.backends.AppEngineUserAPIBackend'
+    'accounts.backends.OauthenticationBackend',
 ]
 ROOT_URLCONF = 'core.urls'
 WSGI_APPLICATION = 'core.wsgi.application'
