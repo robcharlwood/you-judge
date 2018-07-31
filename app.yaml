@@ -21,7 +21,6 @@ handlers:
 
 - url: /.*
   script: core.wsgi.application
-  login: admin
   secure: always
 
 skip_files:

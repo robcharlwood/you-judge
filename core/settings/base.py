@@ -2,6 +2,7 @@ import logging
 import os
 
 from djangae.settings_base import *
+from django.core.urlresolvers import reverse_lazy
 
 from core.boot import get_app_config
 
@@ -22,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.staticfiles',
     # you judge apps
+    'accounts.app.AccountsConfig',
     'core.app.CoreConfig',
     'services.app.ServicesConfig',
 ]
@@ -39,9 +41,9 @@ MIDDLEWARE = [
 
 # project django settings
 SECRET_KEY = config.secret_key
-AUTH_USER_MODEL = 'gauth_datastore.GaeDatastoreUser'
+AUTH_USER_MODEL = 'accounts.User'
 AUTHENTICATION_BACKENDS = [
-    'djangae.contrib.gauth_datastore.backends.AppEngineUserAPIBackend'
+    'accounts.backends.OauthenticationBackend',
 ]
 ROOT_URLCONF = 'core.urls'
 WSGI_APPLICATION = 'core.wsgi.application'
@@ -103,6 +105,10 @@ logging.getLogger().handlers[0].setFormatter(
     logging.Formatter('[%(module)s.%(funcName)s:%(lineno)s] %(message)s'))
 
 
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_SESSION_KEY = 'login_redirect_next_url'
+
 # session csrf settings
 ANON_ALWAYS = True
 
@@ -117,3 +123,14 @@ CLOUD_NATURAL_LANG_API_KEY = config.cloud_nl_api_key
 GOOGLE_OAUTH2_CLIENT_ID = config.oauth2_client_id
 GOOGLE_OAUTH2_CLIENT_SECRET = config.oauth2_client_secret
 GOOGLE_OAUTH2_SCOPES = ['openid', 'email', 'profile']
+GOOGLE_OAUTH2_FLOW_SESSION_KEY = 'oauth-flow'
+GOOGLE_OAUTH2_REDIRECT_URI = reverse_lazy('oauth_step_two')
+GOOGLE_OAUTH2_FLOWS = dict(
+    default=dict(
+        client_id=GOOGLE_OAUTH2_CLIENT_ID,
+        client_secret=GOOGLE_OAUTH2_CLIENT_SECRET,
+        scope=GOOGLE_OAUTH2_SCOPES,
+        user_agent='you-judge-app',
+        prompt='consent',
+    )
+)
