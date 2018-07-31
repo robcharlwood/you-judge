@@ -3,6 +3,7 @@ include=
     accounts/*
     core/*
     dashboard/*
+    moments/*
     services/*
 omit=
     manage.py

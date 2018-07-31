@@ -2,7 +2,7 @@
 set -eu
 
 # run isort diff
-isort -rc accounts core dashboard services --diff
+isort -rc accounts core dashboard moments services --diff
 
 # ask dev if they want isort to apply changes
 read -r -p "Apply changes? (Default: No) y/N: " apply_changes
@@ -12,6 +12,6 @@ if [[ ! "$apply_changes" ]]; then
 fi
 
 if [[ "$apply_changes" != 'N' ]]; then
-    isort -rc accounts core dashboard services
+    isort -rc accounts core dashboard moments services
     echo "I have exerciiiiiiiised the deeeemons, this code... is clear. https://www.youtube.com/watch?v=xMUKPUjxmF4 🍺"
 fi
