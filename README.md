@@ -1,6 +1,6 @@
 # YouJudge
 
-[![Build Status](https://travis-ci.com/robcharlwood/you-judge.svg?branch=master)](https://travis-ci.com/robcharlwood/you-judge.svg?branch=master) [![Coverage Status](https://coveralls.io/repos/github/robcharlwood/you-judge/badge.svg?branch=master)](https://coveralls.io/github/robcharlwood/you-judge?branch=master)
+[![Build Status](https://travis-ci.com/robcharlwood/you-judge.svg?branch=master)](https://travis-ci.com/robcharlwood/you-judge) [![Coverage Status](https://coveralls.io/repos/github/robcharlwood/you-judge/badge.svg?branch=master)](https://coveralls.io/github/robcharlwood/you-judge?branch=master)
 
 ## This project is intended for educational purposes only.
 
