@@ -9,7 +9,10 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 NOSE_ARGS = [
     '--cover-package=accounts',
     '--cover-package=core',
+    '--cover-package=dashboard',
+    '--cover-package=projects',
     '--cover-package=services',
+    '--cover-package=videos',
     '--with-progressive',
     '--logging-level=CRITICAL',
     '--logging-clear-handlers',

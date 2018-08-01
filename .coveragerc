@@ -2,7 +2,10 @@
 include=
     accounts/*
     core/*
+    dashboard/*
+    projects/*
     services/*
+    videos/*
 omit=
     manage.py
     *settings*

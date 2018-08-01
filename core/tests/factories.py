@@ -1,9 +1,14 @@
-from datetime import timedelta
+import datetime
 
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
 import factory
+import pytz
+from factory import fuzzy
+
+from projects.models import Project
+from videos.models import Video, VideoComment
 
 
 class MockCredentials(object):
@@ -27,7 +32,7 @@ def token_expiry():
     """
     Mocks a tokens expiry
     """
-    return timezone.now() + timedelta(days=10)
+    return timezone.now() + datetime.timedelta(days=10)
 
 
 def days_ahead(days):
@@ -46,3 +51,28 @@ class AuthenticatedUserFactory(UserFactory):
     refresh_token = True
     access_token = True
     token_expiry = factory.LazyFunction(token_expiry)
+
+
+class ProjectFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Project
+
+
+class VideoFactory(factory.django.DjangoModelFactory):
+    project = factory.SubFactory(ProjectFactory)
+    published = fuzzy.FuzzyDateTime(
+        datetime.datetime(2017, 1, 1, tzinfo=pytz.UTC))
+
+    class Meta:
+        model = Video
+
+
+class VideoCommentFactory(factory.django.DjangoModelFactory):
+    video = factory.SubFactory(VideoFactory)
+    published = fuzzy.FuzzyDateTime(
+        datetime.datetime(2017, 1, 1, tzinfo=pytz.UTC))
+    updated = fuzzy.FuzzyDateTime(
+        datetime.datetime(2017, 1, 1, tzinfo=pytz.UTC))
+
+    class Meta:
+        model = VideoComment

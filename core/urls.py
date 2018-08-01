@@ -5,15 +5,13 @@ from django.contrib.staticfiles.views import serve
 
 import session_csrf
 
-from .views import DashboardView
-
 session_csrf.monkeypatch()
 
 
 urlpatterns = (
     url(r'^_ah/', include('djangae.urls')),
     url(r'^accounts/', include('accounts.urls')),
-    url(r'^$', DashboardView.as_view(), name='dashboard')
+    url(r'^', include('dashboard.urls'))
 )
 
 if settings.DEBUG:  # pragma: no cover

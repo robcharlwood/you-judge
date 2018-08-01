@@ -25,7 +25,10 @@ INSTALLED_APPS = [
     # you judge apps
     'accounts.app.AccountsConfig',
     'core.app.CoreConfig',
+    'dashboard.app.DashboardConfig',
+    'projects.app.ProjectsConfig',
     'services.app.ServicesConfig',
+    'videos.app.VideosConfig',
 ]
 
 MIDDLEWARE = [
