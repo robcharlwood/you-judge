@@ -12,10 +12,10 @@ These instructions will get you a copy of the project up and running on your
 local machine for development and testing purposes.
 
 * Clone the repository ``git clone git@github.com:robcharlwood/you-judge.git``
-* Create a virtualenv ``mkvirtualenv you-judge``
+* Create a virtualenv ``mkvirtualenv you-judge`` (I recommend using ``virtualenvwrapper``)
 * Run ``./install_deps`` to install Python requirements.
 
-I recommend adding the below to your virtualenv's ``postactivate``
+If you created your environment with ``virtualenvwrapper``, then I suggest adding the below to your virtualenv's ``postactivate``
 script so that you can always ensure you are working on the correct path when you activate your env.
 
 In your choice of editor open the below file - example uses nano:
@@ -31,6 +31,7 @@ Once you activate your environment, this code will move you to the project's cod
 
 ## Running the project locally
 * To serve the backend, run ``./serve``.
+* Update the datastore ``Config`` model instance with your relevant API and Oauth client keys and secrets etc.
 
 ## Running test suite
 
@@ -43,6 +44,10 @@ You can also run individual test classes or tests using the spec syntax.
 * ``./run_tests appname.tests.test_module``
 * ``./run_tests appname.tests.test_module:TestCaseClass``
 * ``./run_tests appname.tests.test_module:TestCaseClass.test_method``
+
+## Cleaning the codebase with isort
+
+You can clean the codebase using the ``./clean_imports`` script
 
 ## Suggested Deployment Process
 
