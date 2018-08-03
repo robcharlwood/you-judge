@@ -14,12 +14,11 @@ class Video(models.Model):
     magnitude = models.PositiveIntegerField(default=0)
     analyzed_transcript = JSONField(blank=True, null=True)
     # you tube specific data
+    youtube_id = models.CharField(max_length=25)
     name = models.CharField(max_length=255)
-    description = models.TextField()
+    description = models.TextField(blank=True)
+    transcript = models.TextField(blank=True)
     published = models.DateTimeField()
-    duration = models.CharField(max_length=25)
-    likes = models.PositiveIntegerField(default=0)
-    dislikes = models.PositiveIntegerField(default=0)
     comment_count = models.PositiveIntegerField(default=0)
 
     def __unicode__(self):
@@ -36,6 +35,7 @@ class VideoComment(models.Model):
     magnitude = models.PositiveIntegerField(default=0)
     analyzed_comment = JSONField(blank=True, null=True)
     # you tube specific data
+    youtube_id = models.CharField(max_length=100)
     author_display_name = models.CharField(max_length=100)
     author_profile_image_url = models.CharField(max_length=255)
     comment = models.TextField()
