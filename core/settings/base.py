@@ -125,7 +125,11 @@ CLOUD_NATURAL_LANG_API_KEY = config.cloud_nl_api_key
 # Oauth2
 GOOGLE_OAUTH2_CLIENT_ID = config.oauth2_client_id
 GOOGLE_OAUTH2_CLIENT_SECRET = config.oauth2_client_secret
-GOOGLE_OAUTH2_SCOPES = ['openid', 'email', 'profile']
+GOOGLE_OAUTH2_SCOPES = [
+    'openid',
+    'email',
+    'profile',
+    'https://www.googleapis.com/auth/youtube.force-ssl']
 GOOGLE_OAUTH2_FLOW_SESSION_KEY = 'oauth-flow'
 GOOGLE_OAUTH2_REDIRECT_URI = reverse_lazy('oauth_step_two')
 GOOGLE_OAUTH2_FLOWS = dict(
@@ -135,5 +139,6 @@ GOOGLE_OAUTH2_FLOWS = dict(
         scope=GOOGLE_OAUTH2_SCOPES,
         user_agent='you-judge-app',
         prompt='consent',
+        access_type='offline',
     )
 )
