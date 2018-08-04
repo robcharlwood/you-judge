@@ -71,6 +71,33 @@ class YouTubeClientTestCase(TestCase):
         result = client.search('kittens')
         self.assertEqual(result, expected_items)
 
+    def test_get_video(self):
+        expected_items = [{
+            u'statistics': {
+                u'commentCount': u'9999',
+                u'viewCount': u'9999',
+                u'favoriteCount': u'9999',
+                u'dislikeCount': u'9999',
+                u'likeCount': u'9999'
+            },
+            u'kind': u'youtube#video',
+            u'etag': u'"etag/123456789"',
+            u'id': u'video1234'
+        }]
+        service = mock.Mock()
+        service.videos().list.return_value.execute.return_value = {
+            u'items': expected_items,
+            u'kind': u'youtube#videoListResponse',
+            u'etag': u'"etag/123456789"',
+            u'pageInfo': {
+                u'resultsPerPage': 1,
+                u'totalResults': 1
+            }
+        }
+        client = Client(service=service)
+        result = client.get('video1234')
+        self.assertEqual(result, expected_items)
+
     def test_get_video_comments(self):
         expected_items = [{
             u'snippet': {
