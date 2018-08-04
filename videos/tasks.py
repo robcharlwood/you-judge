@@ -1,10 +1,38 @@
 import logging
 
 from dateutil import parser
+from google.appengine.ext import deferred
 
-from services import youtube
+from services import youtube, cloudnlp
 
 logger = logging.getLogger(__name__)
+
+
+def cloudnlp_analyze_transcript(video_pk):
+    """
+    Runs video transcripts through sentiment analysis.
+    """
+    from .models import Video  # avoid circular imports
+    try:
+        video = Video.objects.get(pk=video_pk)
+    except Video.DoesNotExist:
+        logger.info('Video {} no longer exists! Cant import comments')
+        return
+    if not video.transcript:
+        logger.info('Video {} does not have a transcript! Cant analyze')
+        return
+    try:
+        client = cloudnlp.Client()
+        analysis = client.analyze_sentiment(video.transcript)
+    except Exception:
+        logger.exception(
+            'Error performing sentiment analysis on transcript for video %r',
+            video.youtube_id)
+        return
+    video.analyzed_transcript = analysis
+    video.sentiment = analysis['documentSentiment']['score']
+    video.magnitude = analysis['documentSentiment']['magnitude']
+    video.save()
 
 
 def youtube_import_comments(video_pk):
@@ -20,7 +48,7 @@ def youtube_import_comments(video_pk):
 
     try:
         client = youtube.Client()
-        comments = client.get_video_comments(video.youtube_id)
+        comments = client.get_video_comments(video.youtube_id, max_results=10)
     except Exception:
         logger.exception(
             'Error importing comments for video %r', video.youtube_id)
@@ -62,3 +90,5 @@ def youtube_import_transcript(video_pk):
     if transcript:
         video.transcript = transcript
         video.save()
+        deferred.defer(
+            cloudnlp_analyze_transcript, video.pk, _queue='analyze')
