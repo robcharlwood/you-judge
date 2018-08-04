@@ -11,13 +11,17 @@ class VideoPostSaveTestCase(TestCase):
         with mock.patch('google.appengine.ext.deferred.defer') as mock_defer:
             video = VideoFactory()
             self.assertTrue(mock_defer.called)
-            self.assertEqual(1, mock_defer.call_count)
+            self.assertEqual(2, mock_defer.call_count)
             self.assertEqual(
-                mock_defer.call_args_list,
-                [mock.call(
-                    tasks.youtube_import_comments,
-                    video.pk,
-                    _queue='youtube')],
+                mock_defer.call_args_list, [
+                    mock.call(
+                        tasks.youtube_import_comments,
+                        video.pk,
+                        _queue='comments'),
+                    mock.call(
+                        tasks.youtube_import_transcript,
+                        video.pk,
+                        _queue='videos')],
                 )
 
     def test_post_save_existing(self):
