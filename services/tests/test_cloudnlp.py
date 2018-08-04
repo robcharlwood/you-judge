@@ -2,7 +2,7 @@ from djangae.test import TestCase
 
 import mock
 
-from services.cloud_nl import Client
+from services.cloudnlp import Client
 
 
 class CloudNaturalLanguageClientTestCase(TestCase):
