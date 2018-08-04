@@ -27,6 +27,9 @@ class YouTubeVideoForm(forms.Form):
         max_length=255, widget=forms.HiddenInput())
     thumbnail_high = forms.CharField(
         max_length=255, widget=forms.HiddenInput())
+    likes = forms.IntegerField()
+    dislikes = forms.IntegerField()
+    comment_count = forms.IntegerField()
 
 
 YouTubeVideoFormSet = formset_factory(YouTubeVideoForm, extra=0)

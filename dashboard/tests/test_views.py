@@ -433,6 +433,9 @@ class VideoAddViewTestCase(TestCase):
                 'form-0-thumbnail_default': 'http://example.com/default.jpg',
                 'form-0-thumbnail_medium': 'http://example.com/medium.jpg',
                 'form-0-thumbnail_high': 'http://example.com/high.jpg',
+                'form-0-likes': 1,
+                'form-0-dislikes': 1,
+                'form-0-comment_count': 1,
                 'form-1-add': True,
                 'form-1-youtube_id': 'video5678',
                 'form-1-name': 'Video 5678',
@@ -441,6 +444,9 @@ class VideoAddViewTestCase(TestCase):
                 'form-1-thumbnail_default': 'http://example.com/default.jpg',
                 'form-1-thumbnail_medium': 'http://example.com/medium.jpg',
                 'form-1-thumbnail_high': 'http://example.com/high.jpg',
+                'form-1-likes': 1,
+                'form-1-dislikes': 1,
+                'form-1-comment_count': 1,
                 # dont add this one
                 'form-2-add': False,
                 'form-2-youtube_id': 'video9999',
@@ -450,6 +456,9 @@ class VideoAddViewTestCase(TestCase):
                 'form-2-thumbnail_default': 'http://example.com/default.jpg',
                 'form-2-thumbnail_medium': 'http://example.com/medium.jpg',
                 'form-2-thumbnail_high': 'http://example.com/high.jpg',
+                'form-2-likes': 1,
+                'form-2-dislikes': 1,
+                'form-2-comment_count': 1,
             })
 
         self.assertEqual(302, response.status_code)

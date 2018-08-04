@@ -26,6 +26,9 @@ class Video(models.Model):
     thumbnail_default = models.CharField(max_length=255)
     thumbnail_medium = models.CharField(max_length=255)
     thumbnail_high = models.CharField(max_length=255)
+    likes = models.PositiveIntegerField(default=0)
+    dislikes = models.PositiveIntegerField(default=0)
+    comment_count = models.PositiveIntegerField(default=0)
 
     def __unicode__(self):
         return u'{}'.format(self.name)
