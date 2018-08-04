@@ -2,9 +2,10 @@ import xml.etree.ElementTree as ElementTree
 
 from django.conf import settings
 
-from googleapiclient import discovery
 from lxml import html
 from lxml.html.clean import clean_html
+
+from googleapiclient import discovery
 from pytube import YouTube
 from pytube.compat import unescape
 
