@@ -27,6 +27,21 @@ class Video(models.Model):
     def __unicode__(self):
         return u'{}'.format(self.name)
 
+    @property
+    def analysis_complete(self):
+        if self.sentiment and self.magnitude and self.analyzed_transcript:
+            return True
+        return False
+
+    @property
+    def can_be_analyzed(self):
+        """
+        Videos can only be analyzed if they have a transcript available.
+        """
+        if self.transcript:
+            return True
+        return False
+
 
 class VideoComment(models.Model):
     """
@@ -48,6 +63,12 @@ class VideoComment(models.Model):
 
     def __unicode__(self):
         return u'Video: {} Comment: {}'.format(self.video_id, self.comment_raw)
+
+    @property
+    def analysis_complete(self):
+        if self.sentiment and self.magnitude and self.analyzed_comment:
+            return True
+        return False
 
 
 # connect up signal handling

@@ -40,3 +40,25 @@ def youtube_import_comments(video_pk):
                 published=published,
                 updated=updated)
     logger.info('Finished importing comment for video %r', video.youtube_id)
+
+
+def youtube_import_transcript(video_pk):
+    """
+    Attempts to grab the transcript for the YouTube video.
+    """
+    from .models import Video
+    try:
+        video = Video.objects.get(pk=video_pk)
+    except Video.DoesNotExist:
+        logger.info('Video {} no longer exists! Cant import comments')
+        return
+    try:
+        client = youtube.Client()
+        transcript = client.get_video_transcript(video.youtube_id)
+    except Exception:
+        logger.exception(
+            'Error importing comments for video %r', video.youtube_id)
+        return
+    if transcript:
+        video.transcript = transcript
+        video.save()
