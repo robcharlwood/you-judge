@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form action="{% url 'dashboard:video_search' object.pk %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ video_search_form.as_p }}
+        <input type="submit" value="Search" />
+    </form>
+    <h1>{{ object }}</h1>
+    <ul>
+    {% for video in videos %}
+        <li><a href="{% url 'dashboard:video_view' object.pk video.pk %}">{{ video.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock content %}
