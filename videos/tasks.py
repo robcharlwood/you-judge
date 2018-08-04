@@ -3,7 +3,7 @@ import logging
 from dateutil import parser
 from google.appengine.ext import deferred
 
-from services import youtube, cloudnlp
+from services import cloudnlp, youtube
 
 logger = logging.getLogger(__name__)
 
