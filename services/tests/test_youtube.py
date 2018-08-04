@@ -1,13 +1,21 @@
+# -*- coding: utf-8 -*-
 from djangae.test import TestCase
 
 import mock
 
 from services.youtube import Client
 
-MOCK_CAPTIONS_XML = """<?xml version="1.0" encoding="utf-8" ?>
+MOCK_CAPTIONS_XML = u"""<?xml version="1.0" encoding="utf-8" ?>
 <transcript>
     <text start="4.75" dur="5.12">Hello world!</text>
     <text start="11.77" dur="7.549">Im Rob Charlwood and Im an Engineer</text>
+</transcript>
+"""
+
+MOCK_CAPTIONS_XML_UTF8 = u"""<?xml version="1.0" encoding="utf-8" ?>
+<transcript>
+    <text start="4.75" dur="5.12">象は鼻が長</text>
+    <text start="11.77" dur="7.549">I\u2019m Rob Charlwood - Engineer</text>
 </transcript>
 """
 
@@ -132,3 +140,15 @@ class YouTubeClientTestCase(TestCase):
             result = client.get_video_transcript('video1234')
         self.assertEqual(
             result, 'Hello world! Im Rob Charlwood and Im an Engineer')
+
+    def test_get_video_transcript_utf8_chars(self):
+        service = mock.Mock()
+        mock_pytube = mock.Mock()
+        mock_xml = mock.Mock()
+        mock_xml.xml_captions = MOCK_CAPTIONS_XML_UTF8
+        mock_pytube.captions.get_by_language_code.return_value = mock_xml
+        client = Client(service=service)
+        with mock.patch('services.youtube.YouTube', return_value=mock_pytube):
+            result = client.get_video_transcript('video1234')
+        self.assertEqual(
+            result, u"象は鼻が長 I’m Rob Charlwood - Engineer")
