@@ -16,10 +16,11 @@ def cloudnlp_analyze_transcript(video_pk):
     try:
         video = Video.objects.get(pk=video_pk)
     except Video.DoesNotExist:
-        logger.info('Video {} no longer exists! Cant import comments')
+        logger.info('Video %r no longer exists! Cant analyze!', video_pk)
         return
     if not video.transcript:
-        logger.info('Video {} does not have a transcript! Cant analyze')
+        logger.info(
+            'Video %r does not have a transcript! Cant analyze!', video_pk)
         return
     try:
         client = cloudnlp.Client()
