@@ -384,17 +384,26 @@ class VideoAddViewTestCase(TestCase):
                 'form-0-name': 'Video 1234',
                 'form-0-published': '2018-05-16 15:30:00',
                 'form-0-description': 'Video 1234 description',
+                'form-0-thumbnail_default': 'http://example.com/default.jpg',
+                'form-0-thumbnail_medium': 'http://example.com/medium.jpg',
+                'form-0-thumbnail_high': 'http://example.com/high.jpg',
                 'form-1-add': True,
                 'form-1-youtube_id': 'video5678',
                 'form-1-name': 'Video 5678',
                 'form-1-published': '2018-05-16 15:30:00',
                 'form-1-description': 'Video 5678 description',
+                'form-1-thumbnail_default': 'http://example.com/default.jpg',
+                'form-1-thumbnail_medium': 'http://example.com/medium.jpg',
+                'form-1-thumbnail_high': 'http://example.com/high.jpg',
                 # dont add this one
                 'form-2-add': False,
                 'form-2-youtube_id': 'video9999',
                 'form-2-name': 'Video 9999',
                 'form-2-published': '2018-05-16 15:30:00',
                 'form-2-description': 'Video 9999 description',
+                'form-2-thumbnail_default': 'http://example.com/default.jpg',
+                'form-2-thumbnail_medium': 'http://example.com/medium.jpg',
+                'form-2-thumbnail_high': 'http://example.com/high.jpg',
             })
 
         self.assertEqual(302, response.status_code)
