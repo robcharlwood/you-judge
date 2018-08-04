@@ -1,6 +1,6 @@
 from .base import *
 
-ALLOWED_HOSTS = ['.appspot.com']
+ALLOWED_HOSTS = ['.appspot.com', '.youjudge.co.uk']
 DEBUG = False
 CSRF_USE_SESSIONS = True
 CSRF_COOKIE_SECURE = True
