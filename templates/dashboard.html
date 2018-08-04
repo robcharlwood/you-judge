@@ -3,12 +3,13 @@
 
 {% block content %}
 
-
-<a href="{% url 'dashboard:project_create' %}">Create Project</a>
+<ul>
+    <li><a href="{% url 'dashboard:project_create' %}">Create Project</a></li>
+</ul>
 
 <ul>
 {% for project in object_list %}
-    <li><a href="{% url 'dashboard:project_view' project.pk %}">{{ project }}</a> <a href="{% url 'dashboard:project_update' project.pk %}">Update</a></li>
+    <li><a href="{% url 'dashboard:project_view' project.pk %}">{{ project }}</a> | <a href="{% url 'dashboard:project_update' project.pk %}">Update</a></li>
 {% endfor %}
 </ul>
 

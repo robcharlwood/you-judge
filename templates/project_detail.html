@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <ul>
+        <li><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
+    </ul>
+
     <form action="{% url 'dashboard:video_search' object.pk %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ video_search_form.as_p }}

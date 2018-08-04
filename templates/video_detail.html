@@ -1,5 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>{{ object }}</h1>
+    <ul>
+        <li><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
+        <li><a href="{% url 'dashboard:project_view' object.project_id %}">{{ object.project.name }}</a></li>
+    </ul>
+
+    <h1>{{ object.name }}</h1>
+    <p>{{ object.description }}</p>
+    <p>{{ object.published }}</p>
+
+    <iframe
+        id="ytplayer"
+        type="text/html"
+        width="640"
+        height="360"
+        src="https://www.youtube.com/embed/{{ object.youtube_id }}?cc_load_policy=1autoplay=0&origin={{ request.scheme }}://{{ request.get_host }}"
+        frameborder="0"
+    ></iframe>
+
 {% endblock content %}

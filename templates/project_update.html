@@ -2,6 +2,11 @@
 
 
 {% block content %}
+<ul>
+    <li><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
+</ul>
+
+<h1>Update {{ object.name }}</h1>
 <form action="." method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
