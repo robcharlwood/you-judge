@@ -32,6 +32,16 @@ class Client(object):
         ).execute()
         return results.get('items', [])
 
+    def get(self, video_id, part="statistics"):
+        """
+        Searches YouTube based on the passed data
+        """
+        results = self.service.videos().list(
+            id=video_id,
+            part=part,
+        ).execute()
+        return results.get('items', [])
+
     def get_video_comments(self, video_id, max_results=50, order="relevance"):
         """
         Retrieves comments for a video
