@@ -134,7 +134,14 @@ class VideoSearchView(LoginRequiredMixin, FormView):
                 result['snippet']['publishedAt'],
                 "%Y-%m-%dT%H:%M:%S.%fZ"),
             'name': result['snippet']['title'],
-            'description': result['snippet']['description']}
+            'description': result['snippet']['description'],
+            'thumbnail_default':
+                result['snippet']['thumbnails']['default']['url'],
+            'thumbnail_medium':
+                result['snippet']['thumbnails']['medium']['url'],
+            'thumbnail_high':
+                result['snippet']['thumbnails']['high']['url'],
+            }
             for result in results
         ])
         return context
@@ -162,7 +169,10 @@ class VideoAddView(LoginRequiredMixin, View):
                         youtube_id=form.cleaned_data['youtube_id'],
                         name=form.cleaned_data['name'],
                         published=form.cleaned_data['published'],
-                        description=form.cleaned_data['description'])
+                        description=form.cleaned_data['description'],
+                        thumbnail_default=form.cleaned_data['thumbnail_default'],
+                        thumbnail_medium=form.cleaned_data['thumbnail_medium'],
+                        thumbnail_high=form.cleaned_data['thumbnail_high'])
         return HttpResponseRedirect(reverse(
             'dashboard:project_view', kwargs={'pk': project.pk}))
 
