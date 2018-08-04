@@ -23,52 +23,179 @@ MOCK_CAPTIONS_XML_UTF8 = u"""<?xml version="1.0" encoding="utf-8" ?>
 class YouTubeClientTestCase(TestCase):
     def test_search(self):
         expected_items = [{
-                u'snippet': {
-                    u'thumbnails': {
-                        u'default': {
-                            u'url': u'https://i.ytimg.com/vi/1/default.jpg',
-                            u'width': 120,
-                            u'height': 90
-                        },
-                        u'high': {
-                            u'url': u'https://i.ytimg.com/vi/1/hqdefault.jpg',
-                            u'width': 480,
-                            u'height': 360
-                        },
-                        u'medium': {
-                            u'url': u'https://i.ytimg.com/vi/1/mqdefault.jpg',
-                            u'width': 320,
-                            u'height': 180
-                        }
-                    },
-                    u'title': u'Kittens',
-                    u'channelId': u'channel1234',
-                    u'publishedAt': u'2018-01-01T00:00:00.000Z',
-                    u'liveBroadcastContent': u'none',
-                    u'channelTitle': u'Channel Title',
-                    u'description': u'description'
+            u'etag': u'"etag/123456789"',
+            u'id': u'video1234',
+            u'kind': u'youtube#video',
+            u'snippet': {
+                u'categoryId': u'25',
+                u'channelId': u'channel1234',
+                u'channelTitle': u'channel Title',
+                u'description': u'video 1234 description',
+                u'liveBroadcastContent': u'none',
+                u'localized': {
+                    u'description': u'description',
+                    u'title': u'Video 1234'
                 },
-                u'kind': u'youtube#searchResult',
+                u'publishedAt': u'2018-01-01T00:00:00.000Z',
+                u'tags': [
+                    u'tag1',
+                    u'tag2',
+                ],
+                u'thumbnails': {
+                    u'default': {
+                        u'height': 90,
+                        u'url': u'http://example.com/default.jpg',
+                        u'width': 120
+                    },
+                    u'high': {
+                        u'height': 360,
+                        u'url': u'hhttp://example.com/high.jpg',
+                        u'width': 480
+                    },
+                    u'maxres': {
+                        u'height': 720,
+                        u'url': u'http://example.com/maxres.jpg',
+                        u'width': 1280
+                    },
+                    u'medium': {
+                        u'height': 180,
+                        u'url': u'http://example.com/medium.jpg',
+                        u'width': 320
+                    },
+                    u'standard': {
+                        u'height': 480,
+                        u'url': u'http://example.com/standard.jpg',
+                        u'width': 640
+                    }
+                },
+                u'title': u'Video 1234'
+            },
+            u'statistics': {
+                u'commentCount': u'9999',
+                u'dislikeCount': u'9999',
+                u'favoriteCount': u'9999',
+                u'likeCount': u'9999',
+                u'viewCount': u'9999'
+            }
+        }]
+        service = mock.Mock()
+        service.search().list.return_value.execute.return_value = {
+            u'etag': u'"etag/123456789"',
+            u'items': [{
                 u'etag': u'"etag/123456789"',
                 u'id': {
                     u'kind': u'youtube#video',
                     u'videoId': u'video1234'
-                }
-            }]
-        service = mock.Mock()
-        service.search().list.return_value.execute.return_value = {
-            u'nextPageToken': u'next_page_token',
+                },
+                u'kind': u'youtube#searchResult'
+            }],
             u'kind': u'youtube#searchListResponse',
-            u'items': expected_items,
-            u'regionCode': u'GB',
-            u'etag': u'"etag/123456789"',
+            u'nextPageToken': u'next_page_token',
             u'pageInfo': {
-                u'resultsPerPage': 50,
-                u'totalResults': 1000000
+                u'resultsPerPage': 1,
+                u'totalResults': 1500
+            },
+            u'regionCode': u'GB'
+        }
+        service.videos().list.return_value.execute.return_value = {
+            u'etag': u'"etag/123456789"',
+            u'items': expected_items,
+            u'kind': u'youtube#videoListResponse',
+            u'pageInfo': {
+                u'resultsPerPage': 1,
+                u'totalResults': 1500,
             }
         }
         client = Client(service=service)
         result = client.search('kittens')
+        self.assertEqual(result, expected_items)
+
+    def test_search_no_results(self):
+        service = mock.Mock()
+        service.search().list.return_value.execute.return_value = {
+            u'etag': u'"etag/123456789"',
+            u'items': [],
+            u'kind': u'youtube#searchListResponse',
+            u'nextPageToken': u'next_page_token',
+            u'pageInfo': {
+                u'resultsPerPage': 0,
+                u'totalResults': 0
+            },
+            u'regionCode': u'GB'
+        }
+        client = Client(service=service)
+        result = client.search('kittens')
+        self.assertEqual(result, [])
+
+    def test_get_video(self):
+        expected_items = [{
+            u'snippet': {
+                u'categoryId': u'25',
+                u'channelId': u'channel1234',
+                u'channelTitle': u'channel Title',
+                u'description': u'video 1234 description',
+                u'liveBroadcastContent': u'none',
+                u'localized': {
+                    u'description': u'description',
+                    u'title': u'Video 1234'
+                },
+                u'publishedAt': u'2018-01-01T00:00:00.000Z',
+                u'tags': [
+                    u'tag1',
+                    u'tag2',
+                ],
+                u'thumbnails': {
+                    u'default': {
+                        u'height': 90,
+                        u'url': u'http://example.com/default.jpg',
+                        u'width': 120
+                    },
+                    u'high': {
+                        u'height': 360,
+                        u'url': u'hhttp://example.com/high.jpg',
+                        u'width': 480
+                    },
+                    u'maxres': {
+                        u'height': 720,
+                        u'url': u'http://example.com/maxres.jpg',
+                        u'width': 1280
+                    },
+                    u'medium': {
+                        u'height': 180,
+                        u'url': u'http://example.com/medium.jpg',
+                        u'width': 320
+                    },
+                    u'standard': {
+                        u'height': 480,
+                        u'url': u'http://example.com/standard.jpg',
+                        u'width': 640
+                    }
+                },
+                u'title': u'Video 1234'
+            },
+            u'statistics': {
+                u'commentCount': u'9999',
+                u'viewCount': u'9999',
+                u'favoriteCount': u'9999',
+                u'dislikeCount': u'9999',
+                u'likeCount': u'9999'
+            },
+            u'kind': u'youtube#video',
+            u'etag': u'"etag/123456789"',
+            u'id': u'video1234'
+        }]
+        service = mock.Mock()
+        service.videos().list.return_value.execute.return_value = {
+            u'items': expected_items,
+            u'kind': u'youtube#videoListResponse',
+            u'etag': u'"etag/123456789"',
+            u'pageInfo': {
+                u'resultsPerPage': 1,
+                u'totalResults': 1
+            }
+        }
+        client = Client(service=service)
+        result = client.get('video1234')
         self.assertEqual(result, expected_items)
 
     def test_get_video_comments(self):

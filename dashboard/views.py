@@ -124,17 +124,27 @@ class VideoSearchView(LoginRequiredMixin, FormView):
 
         # remove videos already added to project from results
         for i, r in enumerate(results):
-            if r['id']['videoId'] in existing_videos:
+            if r['id'] in existing_videos:
                 results.pop(i)
 
         # construct a formset with the rest of the results data
         context['formset'] = YouTubeVideoFormSet(initial=[{
-            'youtube_id': result['id']['videoId'],
+            'youtube_id': result['id'],
             'published': datetime.datetime.strptime(
                 result['snippet']['publishedAt'],
                 "%Y-%m-%dT%H:%M:%S.%fZ"),
             'name': result['snippet']['title'],
-            'description': result['snippet']['description']}
+            'description': result['snippet']['description'],
+            'thumbnail_default':
+                result['snippet']['thumbnails']['default']['url'],
+            'thumbnail_medium':
+                result['snippet']['thumbnails']['medium']['url'],
+            'thumbnail_high':
+                result['snippet']['thumbnails']['high']['url'],
+            'likes': result['statistics']['likeCount'],
+            'dislikes': result['statistics']['dislikeCount'],
+            'comment_count': result['statistics']['commentCount'],
+            }
             for result in results
         ])
         return context
@@ -162,7 +172,13 @@ class VideoAddView(LoginRequiredMixin, View):
                         youtube_id=form.cleaned_data['youtube_id'],
                         name=form.cleaned_data['name'],
                         published=form.cleaned_data['published'],
-                        description=form.cleaned_data['description'])
+                        description=form.cleaned_data['description'],
+                        thumbnail_default=form.cleaned_data['thumbnail_default'],
+                        thumbnail_medium=form.cleaned_data['thumbnail_medium'],
+                        thumbnail_high=form.cleaned_data['thumbnail_high'],
+                        likes=form.cleaned_data['likes'],
+                        dislikes=form.cleaned_data['dislikes'],
+                        comment_count=form.cleaned_data['comment_count'])
         return HttpResponseRedirect(reverse(
             'dashboard:project_view', kwargs={'pk': project.pk}))
 

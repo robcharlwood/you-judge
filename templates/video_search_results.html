@@ -2,12 +2,21 @@
 
 
 {% block content %}
+
+<ul>
+    <li><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
+    <li><a href="{% url 'dashboard:project_view' project.pk %}">{{ project.name }}</a></li>
+</ul>
+
+<h1>YouTube Search Results</h1>
+<p>Please check the videos that you would like to add to your project.</p>
+
 <form action="{% url 'dashboard:video_add' project.pk %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ formset.management_form }}
     <ul>
     {% for form in formset %}
-        <li>{{ form.add }} {{ form.initial.name }}
+        <li>{{ form.add }} <img src="{{ form.initial.thumbnail_default }}" /> {{ form.initial.name }}
         {% for hidden_field in form.hidden_fields %}
             {{ hidden_field.errors }}
             {{ hidden_field }}
