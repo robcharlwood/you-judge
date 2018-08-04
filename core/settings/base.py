@@ -1,7 +1,7 @@
 import logging
 import os
 
-from djangae.settings_base import *
+from djangae.settings_base import *  # noqa
 from django.core.urlresolvers import reverse_lazy
 
 from core.boot import get_app_config

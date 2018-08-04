@@ -13,7 +13,8 @@ class VideoModelTestCase(TestCase):
 class VideoCommentTestCase(TestCase):
     def test_unicode_method(self):
         video = VideoFactory()
-        comment = VideoCommentFactory.create(video=video, comment=u'象は鼻が長')
+        comment = VideoCommentFactory.create(
+            video=video, comment_raw=u'象は鼻が長')
         self.assertEqual(
             comment.__unicode__(), u'Video: {} Comment: 象は鼻が長'.format(
                 video.pk))
