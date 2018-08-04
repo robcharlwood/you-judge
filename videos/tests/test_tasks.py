@@ -4,7 +4,11 @@ import mock
 
 from core.tests.factories import VideoFactory
 from videos.models import VideoComment
-from videos.tasks import youtube_import_comments, youtube_import_transcript
+from videos.tasks import (
+    cloudnlp_analyze_transcript,
+    youtube_import_comments,
+    youtube_import_transcript
+)
 
 
 class YoutubeImportCommentsTestCase(TestCase):
@@ -113,3 +117,50 @@ class YoutubeImportTranscriptTestCase(TestCase):
             self.assertEqual(None, resp)
         video.refresh_from_db()
         self.assertEqual(video.transcript, 'Im a transcript.')
+
+
+class CloudnlpAnalyzeTranscriptTestCase(TestCase):
+    def test_video_does_not_exist(self):
+        resp = cloudnlp_analyze_transcript(9999)
+        self.assertEqual(None, resp)
+
+    def test_video_does_not_have_transcript(self):
+        video = VideoFactory(transcript='')
+        resp = cloudnlp_analyze_transcript(video.pk)
+        self.assertEqual(None, resp)
+        video.refresh_from_db()
+        self.assertEqual({}, video.analyzed_transcript)
+        self.assertEqual(0, video.sentiment)
+        self.assertEqual(0, video.magnitude)
+
+    def test_cloudnlp_client_exception(self):
+        video = VideoFactory(transcript='Hello world!')
+        service = mock.Mock()
+        service.analyze_sentiment.side_effect = Exception
+        with mock.patch('videos.tasks.cloudnlp.Client') as mock_cloudnlp:
+            mock_cloudnlp.return_value = service
+            resp = cloudnlp_analyze_transcript(video.pk)
+            self.assertEqual(None, resp)
+        video.refresh_from_db()
+        self.assertEqual({}, video.analyzed_transcript)
+        self.assertEqual(0, video.sentiment)
+        self.assertEqual(0, video.magnitude)
+
+    def test_ok(self):
+        mock_analysis = {
+            'documentSentiment': {
+                'score': -0.8,
+                'magnitude': 17.0
+            }
+        }
+        video = VideoFactory(transcript='Hello world!')
+        service = mock.Mock()
+        service.analyze_sentiment.return_value = mock_analysis
+        with mock.patch('videos.tasks.cloudnlp.Client') as mock_cloudnlp:
+            mock_cloudnlp.return_value = service
+            resp = cloudnlp_analyze_transcript(video.pk)
+            self.assertEqual(None, resp)
+        video.refresh_from_db()
+        self.assertEqual(mock_analysis, video.analyzed_transcript)
+        self.assertEqual(-0.8, video.sentiment)
+        self.assertEqual(17.0, video.magnitude)
