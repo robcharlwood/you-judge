@@ -21,6 +21,12 @@ class YouTubeVideoForm(forms.Form):
     description = forms.CharField(
         label="", required=False, widget=forms.Textarea(attrs={'hidden': ''}))
     published = forms.DateTimeField(widget=forms.HiddenInput())
+    thumbnail_default = forms.CharField(
+        max_length=255, widget=forms.HiddenInput())
+    thumbnail_medium = forms.CharField(
+        max_length=255, widget=forms.HiddenInput())
+    thumbnail_high = forms.CharField(
+        max_length=255, widget=forms.HiddenInput())
 
 
 YouTubeVideoFormSet = formset_factory(YouTubeVideoForm, extra=0)
