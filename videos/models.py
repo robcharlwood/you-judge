@@ -39,7 +39,8 @@ class VideoComment(models.Model):
     youtube_id = models.CharField(max_length=100)
     author_display_name = models.CharField(max_length=100)
     author_profile_image_url = models.CharField(max_length=255)
-    comment = models.TextField()
+    comment_raw = models.TextField()
+    comment_rich = models.TextField()
     published = models.DateTimeField()
     updated = models.DateTimeField()
 
