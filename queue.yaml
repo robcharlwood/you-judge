@@ -9,3 +9,8 @@ queue:
   rate: 5/s
   retry_parameters:
     task_retry_limit: 3
+
+- name: analyze
+  rate: 5/s
+  retry_parameters:
+    task_retry_limit: 3
