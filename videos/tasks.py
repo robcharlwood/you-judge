@@ -16,10 +16,11 @@ def cloudnlp_analyze_transcript(video_pk):
     try:
         video = Video.objects.get(pk=video_pk)
     except Video.DoesNotExist:
-        logger.info('Video {} no longer exists! Cant import comments')
+        logger.info('Video %r no longer exists! Cant analyze!', video_pk)
         return
     if not video.transcript:
-        logger.info('Video {} does not have a transcript! Cant analyze')
+        logger.info(
+            'Video %r does not have a transcript! Cant analyze!', video_pk)
         return
     try:
         client = cloudnlp.Client()
@@ -33,6 +34,31 @@ def cloudnlp_analyze_transcript(video_pk):
     video.sentiment = analysis['documentSentiment']['score']
     video.magnitude = analysis['documentSentiment']['magnitude']
     video.save()
+
+
+def cloudnlp_analyze_comment(comment_pk):
+    """
+    Runs video comments through sentiment analysis.
+    """
+    from .models import VideoComment  # avoid circular imports
+    try:
+        comment = VideoComment.objects.get(pk=comment_pk)
+    except VideoComment.DoesNotExist:
+        logger.info(
+            'Video comment %r no longer exists! Cant analyze!', comment_pk)
+        return
+    try:
+        client = cloudnlp.Client()
+        analysis = client.analyze_sentiment(comment.comment_raw)
+    except Exception:
+        logger.exception(
+            'Error performing sentiment analysis on comment %r',
+            comment.youtube_id)
+        return
+    comment.analyzed_comment = analysis
+    comment.sentiment = analysis['documentSentiment']['score']
+    comment.magnitude = analysis['documentSentiment']['magnitude']
+    comment.save()
 
 
 def youtube_import_comments(video_pk):
@@ -58,7 +84,7 @@ def youtube_import_comments(video_pk):
             data = c['snippet']['topLevelComment']['snippet']
             updated = parser.parse(data['updatedAt'])
             published = parser.parse(data['publishedAt'])
-            VideoComment.objects.create(
+            comment = VideoComment.objects.create(
                 video=video,
                 youtube_id=c['snippet']['topLevelComment']['id'],
                 author_display_name=data['authorDisplayName'],
@@ -67,6 +93,8 @@ def youtube_import_comments(video_pk):
                 comment_rich=data['textDisplay'],
                 published=published,
                 updated=updated)
+            deferred.defer(
+                cloudnlp_analyze_comment, comment.pk, _queue='analyze')
     logger.info('Finished importing comment for video %r', video.youtube_id)
 
 

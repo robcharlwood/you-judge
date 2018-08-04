@@ -32,7 +32,7 @@ class Client(object):
         ).execute()
         return results.get('items', [])
 
-    def get_video_comments(self, video_id, max_results=100, order="relevance"):
+    def get_video_comments(self, video_id, max_results=50, order="relevance"):
         """
         Retrieves comments for a video
         """
@@ -59,7 +59,11 @@ class Client(object):
             return
 
         # format captions as plaintext and strip trailing whitespace and html
-        captions = ElementTree.fromstring(captions.xml_captions)
+        try:
+            captions = ElementTree.fromstring(captions.xml_captions)
+        except UnicodeEncodeError:
+            xml = captions.xml_captions.encode("utf-8")
+            captions = ElementTree.fromstring(xml)
         captions_list = []
         for subtitle in captions.getchildren():
             text = subtitle.text or u''
