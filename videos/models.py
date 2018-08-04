@@ -45,4 +45,4 @@ class VideoComment(models.Model):
     updated = models.DateTimeField()
 
     def __unicode__(self):
-        return u'Video: {} Comment: {}'.format(self.video_id, self.comment)
+        return u'Video: {} Comment: {}'.format(self.video_id, self.comment_raw)
