@@ -1,0 +1,76 @@
+from djangae.test import TestCase
+
+import mock
+
+from core.tests.factories import VideoFactory
+from videos.models import VideoComment
+from videos.tasks import youtube_import_comments
+
+
+class YoutubeImportCommentsTestCase(TestCase):
+    def test_video_does_not_exist(self):
+        resp = youtube_import_comments(9999)
+        self.assertEqual(None, resp)
+        self.assertEqual(0, len(VideoComment.objects.all()))
+
+    def test_youtube_client_exception(self):
+        video = VideoFactory()
+        service = mock.Mock()
+        service.get_video_comments.side_effect = Exception
+        with mock.patch('videos.tasks.youtube.Client') as mock_yt:
+            mock_yt.return_value = service
+            resp = youtube_import_comments(video.pk)
+            self.assertEqual(None, resp)
+        self.assertEqual(0, len(VideoComment.objects.all()))
+
+    def test_no_comments_returned(self):
+        video = VideoFactory()
+        service = mock.Mock()
+        service.get_video_comments.return_value = []
+        with mock.patch('videos.tasks.youtube.Client') as mock_yt:
+            mock_yt.return_value = service
+            resp = youtube_import_comments(video.pk)
+            self.assertEqual(None, resp)
+        self.assertEqual(0, len(VideoComment.objects.all()))
+
+    def test_ok(self):
+        expected_comments = [{
+            u'snippet': {
+                u'totalReplyCount': 500,
+                u'canReply': False,
+                u'topLevelComment': {
+                    u'snippet': {
+                        u'authorChannelUrl': u'http://sample.com/channel/',
+                        u'authorDisplayName': u'Some display name',
+                        u'updatedAt': u'2018-01-01T00:00:00.000Z',
+                        u'videoId': u'video1234',
+                        u'publishedAt': u'2018-01-01T00:00:00.000Z',
+                        u'viewerRating': u'none',
+                        u'authorChannelId': {
+                            u'value': u'channel1234'
+                        },
+                        u'canRate': True,
+                        u'textOriginal': u"Original text",
+                        u'likeCount': 7336,
+                        u'authorProfileImageUrl': u'http://sample.com/pic.jpg',
+                        u'textDisplay': u'Display text'
+                    },
+                    u'kind': u'youtube#comment',
+                    u'etag': u'"etag/123456789"',
+                    u'id': u'comment1234'
+                },
+                u'videoId': u'video1234',
+                u'isPublic': True
+            },
+            u'kind': u'youtube#commentThread',
+            u'etag': u'"foobarblah123456789"',
+            u'id': u'thread1234'
+        }]
+        video = VideoFactory()
+        service = mock.Mock()
+        service.get_video_comments.return_value = expected_comments
+        with mock.patch('videos.tasks.youtube.Client') as mock_yt:
+            mock_yt.return_value = service
+            resp = youtube_import_comments(video.pk)
+            self.assertEqual(None, resp)
+        self.assertEqual(1, len(VideoComment.objects.all()))
