@@ -32,12 +32,12 @@ class Client(object):
         ).execute()
         return results.get('items', [])
 
-    def get(self, video_id, part="statistics"):
+    def get(self, video_ids, part="statistics"):
         """
         Searches YouTube based on the passed data
         """
         results = self.service.videos().list(
-            id=video_id,
+            id=video_ids,
             part=part,
         ).execute()
         return results.get('items', [])
