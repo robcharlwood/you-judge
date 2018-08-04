@@ -32,7 +32,7 @@ class Client(object):
         ).execute()
         return results.get('items', [])
 
-    def get_video_comments(self, video_id, max_results=100, order="relevance"):
+    def get_video_comments(self, video_id, max_results=50, order="relevance"):
         """
         Retrieves comments for a video
         """
