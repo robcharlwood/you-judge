@@ -124,12 +124,12 @@ class VideoSearchView(LoginRequiredMixin, FormView):
 
         # remove videos already added to project from results
         for i, r in enumerate(results):
-            if r['id']['videoId'] in existing_videos:
+            if r['id'] in existing_videos:
                 results.pop(i)
 
         # construct a formset with the rest of the results data
         context['formset'] = YouTubeVideoFormSet(initial=[{
-            'youtube_id': result['id']['videoId'],
+            'youtube_id': result['id'],
             'published': datetime.datetime.strptime(
                 result['snippet']['publishedAt'],
                 "%Y-%m-%dT%H:%M:%S.%fZ"),

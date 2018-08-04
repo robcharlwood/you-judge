@@ -20,7 +20,7 @@ class Client(object):
                 'youtube', 'v3', developerKey=settings.YOUTUBE_API_KEY)
         self.service = service
 
-    def search(self, query, part="id,snippet", max_results=50):
+    def search(self, query, part="id", max_results=50):
         """
         Searches YouTube based on the passed data
         """
@@ -30,9 +30,13 @@ class Client(object):
             maxResults=max_results,
             type="video"
         ).execute()
-        return results.get('items', [])
+        results = results.get('items', [])
+        if results:
+            return self.get(
+                ','.join(i['id']['videoId'] for i in results))
+        return []
 
-    def get(self, video_ids, part="statistics"):
+    def get(self, video_ids, part="snippet,statistics"):
         """
         Searches YouTube based on the passed data
         """
