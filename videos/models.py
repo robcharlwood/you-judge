@@ -14,8 +14,8 @@ class Video(models.Model):
     owner = models.ForeignKey(get_user_model())
     project = models.ForeignKey(Project)
     # overall video sentiment analysis
-    sentiment = models.IntegerField(default=0)
-    magnitude = models.PositiveIntegerField(default=0)
+    sentiment = models.FloatField(default=0)
+    magnitude = models.FloatField(default=0)
     analyzed_transcript = JSONField(blank=True, null=True)
     # you tube specific data
     youtube_id = models.CharField(max_length=25)
@@ -49,8 +49,8 @@ class VideoComment(models.Model):
     """
     video = models.ForeignKey(Video)
     # overall comment sentiment analysis
-    sentiment = models.IntegerField(default=0)
-    magnitude = models.PositiveIntegerField(default=0)
+    sentiment = models.FloatField(default=0)
+    magnitude = models.FloatField(default=0)
     analyzed_comment = JSONField(blank=True, null=True)
     # you tube specific data
     youtube_id = models.CharField(max_length=100)
