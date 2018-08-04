@@ -248,68 +248,114 @@ class VideoSearchViewTestCase(TestCase):
     def test_post_200_logged_in(self):
         mock_search_resp = [{
             u'snippet': {
+                u'categoryId': u'25',
+                u'channelId': u'channel1234',
+                u'channelTitle': u'channel Title',
+                u'description': u'video 1234 description',
+                u'liveBroadcastContent': u'none',
+                u'localized': {
+                    u'description': u'description',
+                    u'title': u'Video 1234'
+                },
+                u'publishedAt': u'2018-01-01T00:00:00.000Z',
+                u'tags': [
+                    u'tag1',
+                    u'tag2',
+                ],
                 u'thumbnails': {
                     u'default': {
-                        u'url': u'https://i.ytimg.com/vi/1/default.jpg',
-                        u'width': 120,
-                        u'height': 90
+                        u'height': 90,
+                        u'url': u'http://example.com/default.jpg',
+                        u'width': 120
                     },
                     u'high': {
-                        u'url': u'https://i.ytimg.com/vi/1/hqdefault.jpg',
-                        u'width': 480,
-                        u'height': 360
+                        u'height': 360,
+                        u'url': u'hhttp://example.com/high.jpg',
+                        u'width': 480
+                    },
+                    u'maxres': {
+                        u'height': 720,
+                        u'url': u'http://example.com/maxres.jpg',
+                        u'width': 1280
                     },
                     u'medium': {
-                        u'url': u'https://i.ytimg.com/vi/1/mqdefault.jpg',
-                        u'width': 320,
-                        u'height': 180
+                        u'height': 180,
+                        u'url': u'http://example.com/medium.jpg',
+                        u'width': 320
+                    },
+                    u'standard': {
+                        u'height': 480,
+                        u'url': u'http://example.com/standard.jpg',
+                        u'width': 640
                     }
                 },
-                u'title': u'Kittens',
-                u'channelId': u'channel1234',
-                u'publishedAt': u'2018-01-01T00:00:00.000Z',
-                u'liveBroadcastContent': u'none',
-                u'channelTitle': u'Channel Title',
-                u'description': u'description'
+                u'title': u'Video 1234'
             },
-            u'kind': u'youtube#searchResult',
+            u'statistics': {
+                u'commentCount': u'9999',
+                u'viewCount': u'9999',
+                u'favoriteCount': u'9999',
+                u'dislikeCount': u'9999',
+                u'likeCount': u'9999'
+            },
+            u'kind': u'youtube#video',
             u'etag': u'"etag/123456789"',
-            u'id': {
-                u'kind': u'youtube#video',
-                u'videoId': u'video1234'
-            }
+            u'id': u'video1234'
         }, {
             u'snippet': {
+                u'categoryId': u'25',
+                u'channelId': u'channel5678',
+                u'channelTitle': u'channel Title',
+                u'description': u'video 5678 description',
+                u'liveBroadcastContent': u'none',
+                u'localized': {
+                    u'description': u'description',
+                    u'title': u'Video 5678'
+                },
+                u'publishedAt': u'2018-01-01T00:00:00.000Z',
+                u'tags': [
+                    u'tag1',
+                    u'tag2',
+                ],
                 u'thumbnails': {
                     u'default': {
-                        u'url': u'https://i.ytimg.com/vi/1/default.jpg',
-                        u'width': 120,
-                        u'height': 90
+                        u'height': 90,
+                        u'url': u'http://example.com/default.jpg',
+                        u'width': 120
                     },
                     u'high': {
-                        u'url': u'https://i.ytimg.com/vi/1/hqdefault.jpg',
-                        u'width': 480,
-                        u'height': 360
+                        u'height': 360,
+                        u'url': u'hhttp://example.com/high.jpg',
+                        u'width': 480
+                    },
+                    u'maxres': {
+                        u'height': 720,
+                        u'url': u'http://example.com/maxres.jpg',
+                        u'width': 1280
                     },
                     u'medium': {
-                        u'url': u'https://i.ytimg.com/vi/1/mqdefault.jpg',
-                        u'width': 320,
-                        u'height': 180
+                        u'height': 180,
+                        u'url': u'http://example.com/medium.jpg',
+                        u'width': 320
+                    },
+                    u'standard': {
+                        u'height': 480,
+                        u'url': u'http://example.com/standard.jpg',
+                        u'width': 640
                     }
                 },
-                u'title': u'Kittens',
-                u'channelId': u'channel1234',
-                u'publishedAt': u'2018-01-01T00:00:00.000Z',
-                u'liveBroadcastContent': u'none',
-                u'channelTitle': u'Channel Title',
-                u'description': u'description'
+                u'title': u'Video 5678'
             },
-            u'kind': u'youtube#searchResult',
+            u'statistics': {
+                u'commentCount': u'9999',
+                u'viewCount': u'9999',
+                u'favoriteCount': u'9999',
+                u'dislikeCount': u'9999',
+                u'likeCount': u'9999'
+            },
+            u'kind': u'youtube#video',
             u'etag': u'"etag/123456789"',
-            u'id': {
-                u'kind': u'youtube#video',
-                u'videoId': u'video5678'
-            }
+            u'id': u'video5678'
         }]
         logged_in_user = AuthenticatedUserFactory()
         project = ProjectFactory(owner=logged_in_user)
