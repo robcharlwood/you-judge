@@ -82,3 +82,5 @@ added for particularly complex parts of functionality.
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
+
+![Mwaaah!](https://media.giphy.com/media/l3q2LH45XElELRzRm/giphy.gif "Mwaaah!")
