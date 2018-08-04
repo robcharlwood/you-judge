@@ -61,6 +61,7 @@ class ProjectFactory(factory.django.DjangoModelFactory):
 
 
 class VideoFactory(factory.django.DjangoModelFactory):
+    owner = factory.SubFactory(UserFactory)
     project = factory.SubFactory(ProjectFactory)
     published = fuzzy.FuzzyDateTime(
         datetime.datetime(2017, 1, 1, tzinfo=pytz.UTC))
