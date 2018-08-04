@@ -4,7 +4,7 @@ import mock
 
 from core.tests.factories import VideoFactory
 from videos.models import VideoComment
-from videos.tasks import youtube_import_comments
+from videos.tasks import youtube_import_comments, youtube_import_transcript
 
 
 class YoutubeImportCommentsTestCase(TestCase):
@@ -74,3 +74,42 @@ class YoutubeImportCommentsTestCase(TestCase):
             resp = youtube_import_comments(video.pk)
             self.assertEqual(None, resp)
         self.assertEqual(1, len(VideoComment.objects.all()))
+
+
+class YoutubeImportTranscriptTestCase(TestCase):
+    def test_video_does_not_exist(self):
+        resp = youtube_import_transcript(9999)
+        self.assertEqual(None, resp)
+
+    def test_youtube_client_exception(self):
+        video = VideoFactory(transcript='')
+        service = mock.Mock()
+        service.get_video_transcript.side_effect = Exception
+        with mock.patch('videos.tasks.youtube.Client') as mock_yt:
+            mock_yt.return_value = service
+            resp = youtube_import_transcript(video.pk)
+            self.assertEqual(None, resp)
+        video.refresh_from_db()
+        self.assertEqual('', video.transcript)
+
+    def test_no_transcript_returned(self):
+        video = VideoFactory(transcript='')
+        service = mock.Mock()
+        service.get_video_transcript.return_value = None
+        with mock.patch('videos.tasks.youtube.Client') as mock_yt:
+            mock_yt.return_value = service
+            resp = youtube_import_transcript(video.pk)
+            self.assertEqual(None, resp)
+        video.refresh_from_db()
+        self.assertEqual('', video.transcript)
+
+    def test_ok(self):
+        video = VideoFactory(transcript='')
+        service = mock.Mock()
+        service.get_video_transcript.return_value = 'Im a transcript.'
+        with mock.patch('videos.tasks.youtube.Client') as mock_yt:
+            mock_yt.return_value = service
+            resp = youtube_import_transcript(video.pk)
+            self.assertEqual(None, resp)
+        video.refresh_from_db()
+        self.assertEqual(video.transcript, 'Im a transcript.')
