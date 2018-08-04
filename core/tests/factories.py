@@ -54,6 +54,8 @@ class AuthenticatedUserFactory(UserFactory):
 
 
 class ProjectFactory(factory.django.DjangoModelFactory):
+    owner = factory.SubFactory(UserFactory)
+
     class Meta:
         model = Project
 
