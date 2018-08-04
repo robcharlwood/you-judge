@@ -10,8 +10,8 @@ session_csrf.monkeypatch()
 
 urlpatterns = (
     url(r'^_ah/', include('djangae.urls')),
-    url(r'^accounts/', include('accounts.urls')),
-    url(r'^', include('dashboard.urls'))
+    url(r'^accounts/', include('accounts.urls', namespace='accounts')),
+    url(r'^', include('dashboard.urls', namespace='dashboard'))
 )
 
 if settings.DEBUG:  # pragma: no cover

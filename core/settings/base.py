@@ -131,7 +131,7 @@ GOOGLE_OAUTH2_SCOPES = [
     'profile',
     'https://www.googleapis.com/auth/youtube.force-ssl']
 GOOGLE_OAUTH2_FLOW_SESSION_KEY = 'oauth-flow'
-GOOGLE_OAUTH2_REDIRECT_URI = reverse_lazy('oauth_step_two')
+GOOGLE_OAUTH2_REDIRECT_URI = reverse_lazy('accounts:oauth_step_two')
 GOOGLE_OAUTH2_FLOWS = dict(
     default=dict(
         client_id=GOOGLE_OAUTH2_CLIENT_ID,

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<form action="{% url 'dashboard:video_add' project.pk %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ formset.management_form }}
+    <ul>
+    {% for form in formset %}
+        <li>{{ form.add }} {{ form.initial.name }}
+        {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field.errors }}
+            {{ hidden_field }}
+        {% endfor %}
+        {{ form.description }}</li>
+    {% endfor %}
+    </ul>
+    <button type="cancel" onclick="window.location='{% url 'dashboard:project_view' project.pk %}';return false;">Cancel</button>
+    <input type="submit" value="Add to project" />
+</form>
+{% endblock content %}

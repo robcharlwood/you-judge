@@ -1,4 +1,5 @@
 from djangae.fields import JSONField
+from django.contrib.auth import get_user_model
 from django.db import models
 
 from projects.models import Project
@@ -8,6 +9,7 @@ class Video(models.Model):
     """
     Represents a video within a project
     """
+    owner = models.ForeignKey(get_user_model())
     project = models.ForeignKey(Project)
     # overall video sentiment analysis
     sentiment = models.IntegerField(default=0)

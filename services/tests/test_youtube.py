@@ -113,19 +113,21 @@ class YouTubeClientTestCase(TestCase):
 
     def test_get_video_transcript_no_caption(self):
         # checks that None is returned if no captions are available
+        service = mock.Mock()
         mock_pytube = mock.Mock()
         mock_pytube.captions.get_by_language_code.return_value = None
-        client = Client()
+        client = Client(service=service)
         with mock.patch('services.youtube.YouTube', return_value=mock_pytube):
             result = client.get_video_transcript('video1234')
         self.assertEqual(result, None)
 
     def test_get_video_transcript(self):
+        service = mock.Mock()
         mock_pytube = mock.Mock()
         mock_xml = mock.Mock()
         mock_xml.xml_captions = MOCK_CAPTIONS_XML
         mock_pytube.captions.get_by_language_code.return_value = mock_xml
-        client = Client()
+        client = Client(service=service)
         with mock.patch('services.youtube.YouTube', return_value=mock_pytube):
             result = client.get_video_transcript('video1234')
         self.assertEqual(

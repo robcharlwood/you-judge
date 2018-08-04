@@ -54,11 +54,14 @@ class AuthenticatedUserFactory(UserFactory):
 
 
 class ProjectFactory(factory.django.DjangoModelFactory):
+    owner = factory.SubFactory(UserFactory)
+
     class Meta:
         model = Project
 
 
 class VideoFactory(factory.django.DjangoModelFactory):
+    owner = factory.SubFactory(UserFactory)
     project = factory.SubFactory(ProjectFactory)
     published = fuzzy.FuzzyDateTime(
         datetime.datetime(2017, 1, 1, tzinfo=pytz.UTC))

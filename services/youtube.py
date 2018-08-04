@@ -2,9 +2,10 @@ import xml.etree.ElementTree as ElementTree
 
 from django.conf import settings
 
-from googleapiclient import discovery
 from lxml import html
 from lxml.html.clean import clean_html
+
+from googleapiclient import discovery
 from pytube import YouTube
 from pytube.compat import unescape
 
@@ -14,7 +15,7 @@ class Client(object):
     Wrapper around the YouTube data API
     """
     def __init__(self, service=None):
-        if service is None:
+        if service is None:  # pragma: no cover
             service = discovery.build(
                 'youtube', 'v3', developerKey=settings.YOUTUBE_API_KEY)
         self.service = service
