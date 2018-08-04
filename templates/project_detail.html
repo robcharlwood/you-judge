@@ -13,7 +13,7 @@
     <h1>{{ object }}</h1>
     <ul>
     {% for video in videos %}
-        <li><a href="{% url 'dashboard:video_view' object.pk video.pk %}">{{ video.name }}</a></li>
+        <li><img src="{{ video.thumbnail_default }}" /><a href="{% url 'dashboard:video_view' object.pk video.pk %}">{{ video.name }}</a></li>
     {% endfor %}
     </ul>
 {% endblock content %}
