@@ -1,8 +1,10 @@
 from djangae.fields import JSONField
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models.signals import post_save
 
 from projects.models import Project
+from .signals import import_youtube_comments
 
 
 class Video(models.Model):
@@ -46,3 +48,9 @@ class VideoComment(models.Model):
 
     def __unicode__(self):
         return u'Video: {} Comment: {}'.format(self.video_id, self.comment_raw)
+
+
+# connect up signal handling
+post_save.connect(
+    import_youtube_comments, sender=Video,
+    dispatch_uid='import_youtube_comments')
