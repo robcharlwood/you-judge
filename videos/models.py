@@ -21,7 +21,6 @@ class Video(models.Model):
     description = models.TextField(blank=True)
     transcript = models.TextField(blank=True)
     published = models.DateTimeField()
-    comment_count = models.PositiveIntegerField(default=0)
 
     def __unicode__(self):
         return u'{}'.format(self.name)
