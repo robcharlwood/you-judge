@@ -48,7 +48,7 @@ def youtube_import_comments(video_pk):
 
     try:
         client = youtube.Client()
-        comments = client.get_video_comments(video.youtube_id, max_results=10)
+        comments = client.get_video_comments(video.youtube_id)
     except Exception:
         logger.exception(
             'Error importing comments for video %r', video.youtube_id)
