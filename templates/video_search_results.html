@@ -7,7 +7,7 @@
     {{ formset.management_form }}
     <ul>
     {% for form in formset %}
-        <li>{{ form.add }} {{ form.initial.name }}
+        <li>{{ form.add }} <img src="{{ form.initial.thumbnail_default }}" /> {{ form.initial.name }}
         {% for hidden_field in form.hidden_fields %}
             {{ hidden_field.errors }}
             {{ hidden_field }}
