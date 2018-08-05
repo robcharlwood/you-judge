@@ -2,15 +2,33 @@
 
 
 {% block content %}
-
-<ul>
-    <li><a href="{% url 'dashboard:project_create' %}">Create Project</a></li>
-</ul>
-
-<ul>
-{% for project in object_list %}
-    <li><a href="{% url 'dashboard:project_view' project.pk %}">{{ project }}</a> | <a href="{% url 'dashboard:project_update' project.pk %}">Update</a></li>
-{% endfor %}
-</ul>
-
+              <div class="mdl-layout-spacer"></div>
+            <a href="{% url 'dashboard:project_create' %}" class="mdl-button mdl-button--raised mdl-js-ripple-effect mdl-button--primary">
+              Create Project
+            </a>
+    {% for project in object_list %}
+        <div class="mdl-card project-card mdl-cell mdl-cell--12-col mdl-shadow--2dp">
+            <div style="background-image: url('{{ project.video_set.all.0.thumbnail_high }}');" class="mdl-card__media mdl-color-text--grey-50">
+              <a href="{% url 'dashboard:project_view' project.pk %}"></a>
+            </div>
+            <div class="mdl-color-text--grey-600 mdl-card__supporting-text">
+              {{ project.name }}
+              <div class="mdl-layout-spacer"></div>
+                <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right mdl-js-ripple-effect" for="menubtn-{{ project.pk }}">
+                <li class="mdl-menu__item"><a href="{% url 'dashboard:project_update' project.pk %}">Edit</a></li>
+                </ul>
+                <button id="menubtn-{{ project.pk }}" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                    <i class="material-icons" role="presentation">more_vert</i>
+                    <span class="visuallyhidden">show menu</span>
+                </button>
+            </div>
+            <div class="mdl-card__supporting-text meta mdl-color-text--grey-600">
+              <div class="minilogo"></div>
+            <div>
+              <strong>{{ request.user.full_name }}</strong>
+              <span>{{ project.created }}</span>
+            </div>
+            </div>
+          </div>
+    {% endfor %}
 {% endblock content %}

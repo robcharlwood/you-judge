@@ -1,24 +1,48 @@
 {% extends "base.html" %}
 
+{% block breadcrumbs %}
+    <a href="{% url 'dashboard:dashboard' %}" class="mdl-layout__tab">Dashboard</a> /
+    <a href="{% url 'dashboard:project_view' project.pk %}" class="mdl-layout__tab">{{ project.name|truncatewords:5 }}</a> /
+    <a href="{% url 'dashboard:video_view' project.pk video.pk %}" class="mdl-layout__tab">{{ video.name|truncatewords:5 }}</a> /
+    <a href="#" class="mdl-layout__tab is-active">Comment Analysis</a>
+{% endblock breadcrumbs %}
+
 
 {% block content %}
 
-<ul>
-    <li><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
-    <li><a href="{% url 'dashboard:project_view' project.pk %}">{{ project.name }}</a></li>
-    <li><a href="{% url 'dashboard:video_view' project.pk video.pk %}">{{ video.name }}</a></li>
-</ul>
-
-<h1>Comment Analysis</h1>
-
-
+<h5>Comment Analysis</h5>
 {% if object_list|length > 0 %}
-    <h2>Top 50 most relevant Comments</h2>
-    <ul>
+<ul class="demo-list-three mdl-list">
     {% for comment in object_list %}
-        <li style="{% if comment.sentiment < 0 %}background-color:red{% else %}{% if comment.sentiment > 0 %}background-color:green{% else %}{% if comment.sentiment == 0 %}background-color:grey{% endif %}{% endif %}{% endif %}">{{ comment.comment_raw }}</li>
-    {% endfor %}
-    </ul>
-{% endif %}
+      <li class="mdl-list__item mdl-list__item--three-line">
+        <span class="mdl-list__item-primary-content">
 
+          <i class="mdl-list__item-avatar" style="background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%; background-image: url('{{ comment.author_profile_image_url }}');"></i>
+          <span>{{ comment.author_display_name }}</span>
+          <span class="mdl-list__item-text-body">
+            {{ comment.comment_raw }}
+          </span>
+        </span>
+        <span class="mdl-list__item-secondary-content">
+          <div class="mdl-list__item-secondary-action">
+                {% if not comment.analyzed_comment %}
+                <div class="mdl-spinner mdl-js-spinner is-active"></div>
+                {% endif %}
+                {% if comment.analyzed_comment.documentSentiment.score > 0 %}
+                    <i class="material-icons" style="color: green;">sentiment_very_satisfied</i>
+                {% endif %}
+                {% if comment.analyzed_comment.documentSentiment.score < 0 %}
+                    <i class="material-icons" style="color: red;">sentiment_very_dissatisfied</i>
+                {% endif %}
+                {% if comment.analyzed_comment.documentSentiment.score == 0 %}
+                    <i class="material-icons">sentiment_satisfied</i>
+                {% endif %}
+            </div>
+        </span>
+      </li>
+    {% endfor %}
+</ul>
+{% endif %}
 {% endblock content %}

@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% load sentiment %}
 
-{% block content %}
-    <ul>
-        <li><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
-        <li><a href="{% url 'dashboard:project_view' object.project_id %}">{{ object.project.name }}</a></li>
-    </ul>
+{% block breadcrumbs %}
+    <a href="{% url 'dashboard:dashboard' %}" class="mdl-layout__tab">Dashboard</a> /
+    <a href="{% url 'dashboard:project_view' object.project.pk %}" class="mdl-layout__tab">{{ object.project.name|truncatewords:5 }}</a> /
+    <a href="#" class="mdl-layout__tab is-active">{{ object.name|truncatewords:5 }}</a>
+{% endblock breadcrumbs %}
 
-    <h1>{{ object.name }}</h1>
+{% block content %}
+    <h3>{{ object.name }}</h3>
     <p>{{ object.description }}</p>
     <p>{{ object.published }}</p>
     {% if object.analyzed_transcript %}

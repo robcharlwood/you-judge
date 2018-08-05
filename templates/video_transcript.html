@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% load sentiment %}
 
+{% block breadcrumbs %}
+    <a href="{% url 'dashboard:dashboard' %}" class="mdl-layout__tab">Dashboard</a> /
+    <a href="{% url 'dashboard:project_view' object.project_id %}" class="mdl-layout__tab">{{ object.project.name|truncatewords:5 }}</a> /
+    <a href="{% url 'dashboard:video_view' object.project_id object.pk %}" class="mdl-layout__tab">{{ object.name|truncatewords:5 }}</a> /
+    <a href="#" class="mdl-layout__tab is-active">Transcript Analysis</a>
+{% endblock breadcrumbs %}
+
 {% block content %}
     <ul>
         <li><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>

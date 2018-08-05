@@ -1,7 +1,15 @@
 {% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
+<div id="messages-snackbar" class="mdl-js-snackbar mdl-snackbar">
+  <div class="mdl-snackbar__text"></div>
+  <button class="mdl-snackbar__action" type="button"></button>
+</div>
+
+<script>
+r(function(){
+    var snackbarContainer = document.querySelector('#messages-snackbar');
+    var data = { message: '{% for message in messages %}{{ message }}\n{% endfor %}'};
+    snackbarContainer.MaterialSnackbar.showSnackbar(data);
+});
+function r(f){ /in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
+</script>
 {% endif %}

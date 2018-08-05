@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 
-{% block content %}
-    <ul>
-        <li><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
-    </ul>
+{% block breadcrumbs %}
+    <a href="{% url 'dashboard:dashboard' %}" class="mdl-layout__tab">Dashboard</a> /
+    <a href="#" class="mdl-layout__tab is-active">{{ object.name|truncatewords:7 }}</a>
+{% endblock breadcrumbs %}
 
+{% block content %}
     <form action="{% url 'dashboard:video_search' object.pk %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ video_search_form.as_p }}

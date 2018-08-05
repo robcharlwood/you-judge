@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
+{% block breadcrumbs %}
+    <a href="{% url 'dashboard:dashboard' %}" class="mdl-layout__tab">Dashboard</a> /
+    <a href="{% url 'dashboard:project_view' project.pk %}" class="mdl-layout__tab">{{ project.name|truncatewords:7 }}</a> /
+    <a href="#" class="mdl-layout__tab is-active">Search results</a>
+{% endblock breadcrumbs %}
+
 
 {% block content %}
-
-<ul>
-    <li><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
-    <li><a href="{% url 'dashboard:project_view' project.pk %}">{{ project.name }}</a></li>
-</ul>
 
 <h1>YouTube Search Results</h1>
 <p>Please check the videos that you would like to add to your project.</p>
