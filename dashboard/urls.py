@@ -7,8 +7,10 @@ from .views import (
     ProjectDetailView,
     ProjectUpdateView,
     VideoAddView,
+    VideoCommentListView,
     VideoDetailView,
-    VideoSearchView
+    VideoSearchView,
+    VideoTranscriptView
 )
 
 urlpatterns = (
@@ -26,4 +28,8 @@ urlpatterns = (
         VideoAddView.as_view(), name='video_add'),
     url(r'^project/(?P<project_pk>\d+)/video/view/(?P<pk>\d+)/$',
         VideoDetailView.as_view(), name='video_view'),
+    url(r'^project/(?P<project_pk>\d+)/video/(?P<pk>\d+)/analysis/comments/$',
+        VideoCommentListView.as_view(), name='video_comment_view'),
+    url(r'^project/(?P<project_pk>\d+)/video/(?P<pk>\d+)/analysis/transcript/$',
+        VideoTranscriptView.as_view(), name='video_transcript_view'),
 )

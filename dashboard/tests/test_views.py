@@ -18,8 +18,10 @@ from dashboard.views import (
     ProjectDetailView,
     ProjectUpdateView,
     VideoAddView,
+    VideoCommentListView,
     VideoDetailView,
-    VideoSearchView
+    VideoSearchView,
+    VideoTranscriptView
 )
 
 
@@ -512,5 +514,97 @@ class VideoDetailViewTestCase(TestCase):
             project.pk, video.pk))
         request.user = logged_in_user
         resp = VideoDetailView.as_view()(
+            request, project_pk=project.pk, pk=video.pk)
+        self.assertEqual(200, resp.status_code)
+
+
+class VideoTranscriptViewTestCase(TestCase):
+    def setUp(self):
+        super(VideoTranscriptViewTestCase, self).setUp()
+        self.rf = RequestFactory()
+
+    def test_302_not_logged_in(self):
+        project = ProjectFactory()
+        video = VideoFactory(project=project)
+        request = self.rf.get(
+            '/project/{}/video/{}/analysis/transcript/'.format(
+                project.pk, video.pk))
+        request.user = AnonymousUser()
+        resp = VideoTranscriptView.as_view()(
+            request, project_pk=project.pk, pk=video.pk)
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(
+            resp._headers['location'][1],
+            '/accounts/login/?next=/project/{}/video/{}/analysis/transcript/'.format(
+                project.pk, video.pk))
+
+    def test_404_logged_in_permission_denied(self):
+        # users cant see the details of a project they dont own
+        project = ProjectFactory()
+        video = VideoFactory(project=project)
+        logged_in_user = AuthenticatedUserFactory()
+        request = self.rf.get(
+            '/project/{}/video/{}/analysis/transcript/'.format(
+                project.pk, video.pk))
+        request.user = logged_in_user
+        with self.assertRaises(Http404):
+            VideoTranscriptView.as_view()(
+                request, project_pk=project.pk, pk=video.pk)
+
+    def test_200_ok_logged_in(self):
+        logged_in_user = AuthenticatedUserFactory()
+        project = ProjectFactory(owner=logged_in_user)
+        video = VideoFactory(project=project, owner=logged_in_user)
+        request = self.rf.get(
+            '/project/{}/video/{}/analysis/transcript/'.format(
+                project.pk, video.pk))
+        request.user = logged_in_user
+        resp = VideoTranscriptView.as_view()(
+            request, project_pk=project.pk, pk=video.pk)
+        self.assertEqual(200, resp.status_code)
+
+
+class VideoCommentListViewTestCase(TestCase):
+    def setUp(self):
+        super(VideoCommentListViewTestCase, self).setUp()
+        self.rf = RequestFactory()
+
+    def test_302_not_logged_in(self):
+        project = ProjectFactory()
+        video = VideoFactory(project=project)
+        request = self.rf.get(
+            '/project/{}/video/{}/analysis/comments/'.format(
+                project.pk, video.pk))
+        request.user = AnonymousUser()
+        resp = VideoCommentListView.as_view()(
+            request, project_pk=project.pk, pk=video.pk)
+        self.assertEqual(resp.status_code, 302)
+        self.assertEqual(
+            resp._headers['location'][1],
+            '/accounts/login/?next=/project/{}/video/{}/analysis/comments/'.format(
+                project.pk, video.pk))
+
+    def test_404_logged_in_permission_denied(self):
+        # users cant see the details of a project they dont own
+        project = ProjectFactory()
+        video = VideoFactory(project=project)
+        logged_in_user = AuthenticatedUserFactory()
+        request = self.rf.get(
+            '/project/{}/video/{}/analysis/comments/'.format(
+                project.pk, video.pk))
+        request.user = logged_in_user
+        with self.assertRaises(Http404):
+            VideoCommentListView.as_view()(
+                request, project_pk=project.pk, pk=video.pk)
+
+    def test_200_ok_logged_in(self):
+        logged_in_user = AuthenticatedUserFactory()
+        project = ProjectFactory(owner=logged_in_user)
+        video = VideoFactory(project=project, owner=logged_in_user)
+        request = self.rf.get(
+            '/project/{}/video/{}/analysis/comments/'.format(
+                project.pk, video.pk))
+        request.user = logged_in_user
+        resp = VideoCommentListView.as_view()(
             request, project_pk=project.pk, pk=video.pk)
         self.assertEqual(200, resp.status_code)

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<ul>
+    <li><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
+    <li><a href="{% url 'dashboard:project_view' project.pk %}">{{ project.name }}</a></li>
+    <li><a href="{% url 'dashboard:video_view' project.pk video.pk %}">{{ video.name }}</a></li>
+</ul>
+
+<h1>Comment Analysis</h1>
+
+
+{% if object_list|length > 0 %}
+    <h2>Top 50 most relevant Comments</h2>
+    <ul>
+    {% for comment in object_list %}
+        <li style="{% if comment.sentiment < 0 %}background-color:red{% else %}{% if comment.sentiment > 0 %}background-color:green{% else %}{% if comment.sentiment == 0 %}background-color:grey{% endif %}{% endif %}{% endif %}">{{ comment.comment_raw }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+{% endblock content %}
