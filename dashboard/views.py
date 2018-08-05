@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseNotAllowed, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
-from django.views.generic.base import TemplateView, View
+from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, FormView, UpdateView
 from django.views.generic.list import ListView
@@ -27,13 +27,6 @@ class LoginRequiredMixin(object):
         except AttributeError:
             pass
         return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
-
-
-class HomeView(TemplateView):
-    """
-    Home view.
-    """
-    template_name = 'home.html'
 
 
 class DashboardView(LoginRequiredMixin, ListView):

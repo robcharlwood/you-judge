@@ -2,7 +2,6 @@ from django.conf.urls import url
 
 from .views import (
     DashboardView,
-    HomeView,
     ProjectCreateView,
     ProjectDetailView,
     ProjectUpdateView,
@@ -14,8 +13,7 @@ from .views import (
 )
 
 urlpatterns = (
-    url(r'^$',  HomeView.as_view(), name='home'),
-    url(r'^dashboard/$',  DashboardView.as_view(), name='dashboard'),
+    url(r'^$',  DashboardView.as_view(), name='dashboard'),
     url(r'^project/new/$',
         ProjectCreateView.as_view(), name='project_create'),
     url(r'^project/view/(?P<pk>\d+)/$',
