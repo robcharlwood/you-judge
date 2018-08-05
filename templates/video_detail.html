@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load sentiment %}
 
 {% block content %}
     <ul>
@@ -9,7 +10,9 @@
     <h1>{{ object.name }}</h1>
     <p>{{ object.description }}</p>
     <p>{{ object.published }}</p>
-
+    {% if object.analyzed_transcript %}
+        <p>This video is generally {% sentiment_display object.analyzed_transcript.documentSentiment.score %} in content</p>
+    {% endif %}
     <iframe
         id="ytplayer"
         type="text/html"
