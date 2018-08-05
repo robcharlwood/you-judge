@@ -132,6 +132,7 @@ def get_user_values_to_store(credentials, user_info, creating=True):
         first_name=user_info.get('given_name', ''),
         last_name=user_info.get('family_name', ''),
         full_name=user_info.get('name', ''),
+        profile_image_url=user_info.get('picture', ''),
         last_login=timezone.now(),
         access_token=credentials.access_token,
         refresh_token=credentials.refresh_token,
