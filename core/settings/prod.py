@@ -1,4 +1,4 @@
-from .base import *
+from .base import *  # noqa
 
 ALLOWED_HOSTS = ['.appspot.com', '.youjudge.co.uk']
 DEBUG = False
@@ -19,7 +19,7 @@ SECURE_REDIRECT_EXEMPT = [
 ]
 
 # use cached template loader in production to speed things up
-for template in TEMPLATES:
+for template in TEMPLATES:  # noqa
     template['OPTIONS']['debug'] = False
     if template['BACKEND'] == \
             'django.template.backends.django.DjangoTemplates':
