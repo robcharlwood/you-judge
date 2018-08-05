@@ -6,15 +6,38 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-    <form action="{% url 'dashboard:video_search' object.pk %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ video_search_form.as_p }}
-        <input type="submit" value="Search" />
-    </form>
-    <h1>{{ object }}</h1>
-    <ul>
+
+<div class="mdl-cell--12-col">
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text">
+        <h2 class="mdl-card__title-text">{{ object.name }}</h2>
+    </div>
+</div>
+
+<div class="mdl-cell--12-col">
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text">
+<form action="{% url 'dashboard:video_search' object.pk %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mdl-textfield mdl-js-textfield">
+        <input class="mdl-textfield__input" type="text" name="keywords" id="id_keywords" required="" maxlength="100" placeholder="Search YouTube...">
+    </div>
+    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
+        <i class="material-icons">search</i>
+    </button>
+</form>
+</div>
+</div>
+
+
+
+<table class="mdl-data-table mdl-shadow--2dp mdl-cell--12-col">
+  <tbody>
     {% for video in videos %}
-        <li><img src="{{ video.thumbnail_default }}" /><a href="{% url 'dashboard:video_view' object.pk video.pk %}">{{ video.name }}</a></li>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'dashboard:video_view' object.pk video.pk %}"><img src="{{ video.thumbnail_default }}" /></a></td>
+            <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'dashboard:video_view' object.pk video.pk %}">{{ video.name }}</a></td>
+        </tr>
     {% endfor %}
-    </ul>
+  </tbody>
+</table>
+
 {% endblock content %}
