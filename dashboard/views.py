@@ -16,12 +16,16 @@ from projects.forms import ProjectForm
 from projects.models import Project
 from services import youtube
 from videos.forms import YouTubeVideoFormSet, YouTubeVideoSearchForm
-from videos.models import Video
+from videos.models import Video, VideoComment
 
 
 class LoginRequiredMixin(object):
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
+        try:
+            self.pre_checks()
+        except AttributeError:
+            pass
         return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
 
 
@@ -188,6 +192,43 @@ class VideoDetailView(LoginRequiredMixin, DetailView):
     Allows users to view a project
     """
     template_name = 'video_detail.html'
+    model = Video
+
+    def get_queryset(self):
+        return improve_queryset_consistency(
+            self.model.objects.filter(
+                project=self.kwargs['project_pk'], owner=self.request.user))
+
+
+class VideoCommentListView(LoginRequiredMixin, ListView):
+    model = VideoComment
+    template_name = 'video_comments.html'
+
+    def get_queryset(self):
+        return improve_queryset_consistency(
+            self.model.objects.filter(video=self.video))
+
+    def pre_checks(self):
+        """
+        Ensures relevant objects exist and that the current user is the owner
+        """
+        self.project = get_object_or_404(
+            Project, pk=self.kwargs['project_pk'], owner=self.request.user)
+        self.video = get_object_or_404(
+            Video, pk=self.kwargs['pk'], project=self.project)
+
+    def get_context_data(self, **kwargs):
+        context = super(VideoCommentListView, self).get_context_data(**kwargs)
+        context['project'] = self.project
+        context['video'] = self.video
+        return context
+
+
+class VideoTranscriptView(LoginRequiredMixin, DetailView):
+    """
+    Allows users to view a project
+    """
+    template_name = 'video_transcript.html'
     model = Video
 
     def get_queryset(self):
