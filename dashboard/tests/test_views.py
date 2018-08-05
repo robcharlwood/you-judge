@@ -129,7 +129,7 @@ class ProjectCreateViewTestCase(TestCase):
 
         self.assertEqual(302, response.status_code)
         self.assertEqual(
-            response._headers['location'][1], '/dashboard/')
+            response._headers['location'][1], '/')
         project = ProjectFactory._meta.model.objects.get()
         self.assertEqual(project.name, 'Foo')
         self.assertEqual(project.owner, logged_in_user)
@@ -191,7 +191,7 @@ class ProjectUpdateViewTestCase(TestCase):
 
         self.assertEqual(302, response.status_code)
         self.assertEqual(
-            response._headers['location'][1], '/dashboard/')
+            response._headers['location'][1], '/')
         project = ProjectFactory._meta.model.objects.get()
         self.assertEqual(project.name, 'Bar')
         self.assertEqual(project.owner, logged_in_user)
