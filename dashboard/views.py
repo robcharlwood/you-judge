@@ -141,9 +141,9 @@ class VideoSearchView(LoginRequiredMixin, FormView):
                 result['snippet']['thumbnails']['medium']['url'],
             'thumbnail_high':
                 result['snippet']['thumbnails']['high']['url'],
-            'likes': result['statistics']['likeCount'],
-            'dislikes': result['statistics']['dislikeCount'],
-            'comment_count': result['statistics']['commentCount'],
+            'likes': result['statistics'].get('likeCount', 0),
+            'dislikes': result['statistics'].get('dislikeCount', 0),
+            'comment_count': result['statistics'].get('commentCount', 0),
             }
             for result in results
         ])
