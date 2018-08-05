@@ -31,4 +31,14 @@
         </ul>
     {% endif %}
 
+    {% if object.videocomment_set.all|length > 0 %}
+    <h2>Top 50 most relevant Comments</h2>
+        <ul>
+        {% for comment in object.videocomment_set.all %}
+            <li style="{% if comment.sentiment < 0 %}background-color:red{% else %}{% if comment.sentiment > 0 %}background-color:green{% else %}{% if comment.sentiment == 0 %}background-color:grey{% endif %}{% endif %}{% endif %}">{{ comment.comment_raw }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+
 {% endblock content %}
