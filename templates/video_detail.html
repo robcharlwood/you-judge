@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load sentiment %}
 
 {% block content %}
     <ul>
@@ -9,7 +10,9 @@
     <h1>{{ object.name }}</h1>
     <p>{{ object.description }}</p>
     <p>{{ object.published }}</p>
-
+    {% if object.analyzed_transcript %}
+        <p>This video is generally {% sentiment_display object.analyzed_transcript.documentSentiment.score %} in content</p>
+    {% endif %}
     <iframe
         id="ytplayer"
         type="text/html"
@@ -18,5 +21,24 @@
         src="https://www.youtube.com/embed/{{ object.youtube_id }}?cc_load_policy=1autoplay=0&origin={{ request.scheme }}://{{ request.get_host }}"
         frameborder="0"
     ></iframe>
+
+    {% if object.analyzed_transcript %}
+    <h2>Analysed Transcript</h2>
+        <ul>
+        {% for sentence in object.analyzed_transcript.sentences %}
+            <li style="{% if sentence.sentiment.score < 0 %}background-color:red{% else %}{% if sentence.sentiment.score > 0 %}background-color:green{% else %}{% if sentence.sentiment.score == 0 %}background-color:grey{% endif %}{% endif %}{% endif %}">{{ sentence.text.content }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if object.videocomment_set.all|length > 0 %}
+    <h2>Top 50 most relevant Comments</h2>
+        <ul>
+        {% for comment in object.videocomment_set.all %}
+            <li style="{% if comment.sentiment < 0 %}background-color:red{% else %}{% if comment.sentiment > 0 %}background-color:green{% else %}{% if comment.sentiment == 0 %}background-color:grey{% endif %}{% endif %}{% endif %}">{{ comment.comment_raw }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
 
 {% endblock content %}

@@ -1,3 +1,5 @@
+import logging
+
 import xml.etree.ElementTree as ElementTree
 
 from django.conf import settings
@@ -8,6 +10,8 @@ from lxml.html.clean import clean_html
 from googleapiclient import discovery
 from pytube import YouTube
 from pytube.compat import unescape
+
+logger = logging.getLogger(__name__)
 
 
 class Client(object):
@@ -70,6 +74,7 @@ class Client(object):
         video = YouTube('https://www.youtube.com/watch?v={}'.format(video_id))
         captions = video.captions.get_by_language_code('en')
         if not captions:
+            logger.info('Unable to return transcript for video %r!', video_id)
             return
 
         # format captions as plaintext and strip trailing whitespace and html
