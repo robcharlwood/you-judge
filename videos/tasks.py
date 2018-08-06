@@ -106,14 +106,14 @@ def youtube_import_transcript(video_pk):
     try:
         video = Video.objects.get(pk=video_pk)
     except Video.DoesNotExist:
-        logger.info('Video {} no longer exists! Cant import comments')
+        logger.info('Video {} no longer exists! Cant import transcript')
         return
     try:
         client = youtube.Client()
         transcript = client.get_video_transcript(video.youtube_id)
     except Exception:
         logger.exception(
-            'Error importing comments for video %r', video.youtube_id)
+            'Error importing transcript for video %r', video.youtube_id)
         return
     if transcript:
         video.transcript = transcript

@@ -1,18 +1,22 @@
 {% extends "base.html" %}
-{% load sentiment %}
+
+{% block breadcrumbs %}
+    <a href="{% url 'dashboard:dashboard' %}" class="mdl-layout__tab">Dashboard</a> /
+    <a href="{% url 'dashboard:project_view' object.project.pk %}" class="mdl-layout__tab">{{ object.project.name|truncatewords:5 }}</a> /
+    <a href="#" class="mdl-layout__tab is-active">{{ object.name|truncatewords:5 }}</a>
+{% endblock breadcrumbs %}
 
 {% block content %}
-    <ul>
-        <li><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
-        <li><a href="{% url 'dashboard:project_view' object.project_id %}">{{ object.project.name }}</a></li>
-    </ul>
 
-    <h1>{{ object.name }}</h1>
-    <p>{{ object.description }}</p>
+<div style="background-color: #ffffff;">
+  <a href="#fixed-tab-1" style="color: #757575; border-bottom: 2px solid rgb(244, 67, 54);" class="mdl-layout__tab">Overview</a>
+  <a href="{% url 'dashboard:video_transcript_view' object.project.pk object.pk %}"  style="color: #757575;" class="mdl-layout__tab">Transcript Analysis</a>
+  <a href="{% url 'dashboard:video_comment_view' object.project.pk object.pk %}"  style="color: #757575;" class="mdl-layout__tab">Comment Analysis</a>
+</div>
+
+<div class="mdl-cell--12-col">
+    <h5>{{ object.name }}</h5>
     <p>{{ object.published }}</p>
-    {% if object.analyzed_transcript %}
-        <p>This video is generally {% sentiment_display object.analyzed_transcript.documentSentiment.score %} in content</p>
-    {% endif %}
     <iframe
         id="ytplayer"
         type="text/html"
@@ -21,8 +25,5 @@
         src="https://www.youtube.com/embed/{{ object.youtube_id }}?cc_load_policy=1autoplay=0&origin={{ request.scheme }}://{{ request.get_host }}"
         frameborder="0"
     ></iframe>
-
-    <a href="{% url 'dashboard:video_transcript_view' object.project.pk object.pk %}">Transcript Analysis</a>
-    <a href="{% url 'dashboard:video_comment_view' object.project.pk object.pk %}">Comment Analysis</a>
-
+</div>
 {% endblock content %}

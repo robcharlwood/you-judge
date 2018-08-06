@@ -15,7 +15,9 @@ class YouTubeVideoForm(forms.Form):
     form is used as part of the YouTubeVideoFormSet which allows us to add
     videos to a project in bulk
     """
-    add = forms.BooleanField(label="", initial=False, required=False)
+    add = forms.BooleanField(
+        label="", initial=False, required=False,
+        widget=forms.CheckboxInput(attrs={'class': 'mdl-checkbox__input'}))
     youtube_id = forms.CharField(max_length=25, widget=forms.HiddenInput())
     name = forms.CharField(max_length=255, widget=forms.HiddenInput())
     description = forms.CharField(

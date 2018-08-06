@@ -13,7 +13,6 @@ from core.tests.factories import (
 )
 from dashboard.views import (
     DashboardView,
-    HomeView,
     ProjectCreateView,
     ProjectDetailView,
     ProjectUpdateView,
@@ -23,24 +22,6 @@ from dashboard.views import (
     VideoSearchView,
     VideoTranscriptView
 )
-
-
-class HomeViewTestCase(TestCase):
-    def setUp(self):
-        super(HomeViewTestCase, self).setUp()
-        self.rf = RequestFactory()
-
-    def test_200_ok_anon(self):
-        request = self.rf.get('/')
-        request.user = AnonymousUser()
-        resp = HomeView.as_view()(request)
-        self.assertEqual(resp.status_code, 200)
-
-    def test_200_ok_logged_in(self):
-        request = self.rf.get('/')
-        request.user = AuthenticatedUserFactory()
-        resp = HomeView.as_view()(request)
-        self.assertEqual(resp.status_code, 200)
 
 
 class DashboardViewTestCase(TestCase):
@@ -148,7 +129,7 @@ class ProjectCreateViewTestCase(TestCase):
 
         self.assertEqual(302, response.status_code)
         self.assertEqual(
-            response._headers['location'][1], '/dashboard/')
+            response._headers['location'][1], '/')
         project = ProjectFactory._meta.model.objects.get()
         self.assertEqual(project.name, 'Foo')
         self.assertEqual(project.owner, logged_in_user)
@@ -210,7 +191,7 @@ class ProjectUpdateViewTestCase(TestCase):
 
         self.assertEqual(302, response.status_code)
         self.assertEqual(
-            response._headers['location'][1], '/dashboard/')
+            response._headers['location'][1], '/')
         project = ProjectFactory._meta.model.objects.get()
         self.assertEqual(project.name, 'Bar')
         self.assertEqual(project.owner, logged_in_user)

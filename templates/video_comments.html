@@ -1,24 +1,54 @@
 {% extends "base.html" %}
 
+{% block breadcrumbs %}
+    <a href="{% url 'dashboard:dashboard' %}" class="mdl-layout__tab">Dashboard</a> /
+    <a href="{% url 'dashboard:project_view' project.pk %}" class="mdl-layout__tab">{{ project.name|truncatewords:5 }}</a> /
+    <a href="{% url 'dashboard:video_view' project.pk video.pk %}" class="mdl-layout__tab">{{ video.name|truncatewords:5 }}</a> /
+    <a href="#" class="mdl-layout__tab is-active">Comment Analysis</a>
+{% endblock breadcrumbs %}
+
 
 {% block content %}
 
-<ul>
-    <li><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
-    <li><a href="{% url 'dashboard:project_view' project.pk %}">{{ project.name }}</a></li>
-    <li><a href="{% url 'dashboard:video_view' project.pk video.pk %}">{{ video.name }}</a></li>
-</ul>
+<div style="background-color: #ffffff;">
+  <a href="{% url 'dashboard:video_view' project.pk video.pk %}" style="color: #757575;" class="mdl-layout__tab">Overview</a>
+  <a href="{% url 'dashboard:video_transcript_view' project.pk video.pk %}"  style="color: #757575;" class="mdl-layout__tab">Transcript Analysis</a>
+  <a href="#" style="color: #757575; border-bottom: 2px solid rgb(244, 67, 54);" class="mdl-layout__tab">Comment Analysis</a>
+</div>
 
-<h1>Comment Analysis</h1>
-
-
-{% if object_list|length > 0 %}
-    <h2>Top 50 most relevant Comments</h2>
-    <ul>
-    {% for comment in object_list %}
-        <li style="{% if comment.sentiment < 0 %}background-color:red{% else %}{% if comment.sentiment > 0 %}background-color:green{% else %}{% if comment.sentiment == 0 %}background-color:grey{% endif %}{% endif %}{% endif %}">{{ comment.comment_raw }}</li>
-    {% endfor %}
-    </ul>
-{% endif %}
-
+<div class="mdl-cell--12-col">
+  <h5>Comment Analysis <i class="material-icons" style="font-size: 26px;">comment</i></h5>
+  {% if object_list|length > 0 %}
+  <ul class="demo-list-three mdl-list">
+      {% for comment in object_list %}
+        <li class="mdl-list__item mdl-shadow--2dp" style="padding: 20px; margin-bottom: 20px; font-size: 14px; color: rgba(0, 0, 0, 0.54); line-height: 18px;">
+          <span class="mdl-list__item-primary-content">
+            <span class="mdl-list__item-text-body">
+              <span><strong>{{ comment.author_display_name }}</strong></span><br/>
+              <span>Published: {{ comment.published }}</span><br/><br/>
+              <span>{{ comment.comment_raw }}</span>
+            </span>
+          </span>
+          <span class="mdl-list__item-secondary-content">
+            <div class="mdl-list__item-secondary-action">
+                  {% if not comment.analyzed_comment %}
+                  <div class="mdl-spinner mdl-js-spinner is-active"></div>
+                  {% else %}
+                    {% if comment.analyzed_comment.documentSentiment.score > 0 %}
+                        <i class="material-icons" style="color: green;">sentiment_very_satisfied</i>
+                    {% endif %}
+                    {% if comment.analyzed_comment.documentSentiment.score < 0 %}
+                        <i class="material-icons" style="color: red;">sentiment_very_dissatisfied</i>
+                    {% endif %}
+                    {% if comment.analyzed_comment.documentSentiment.score == 0 %}
+                        <i class="material-icons">sentiment_satisfied</i>
+                    {% endif %}
+                  {% endif %}
+              </div>
+          </span>
+        </li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+</div>
 {% endblock content %}

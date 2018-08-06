@@ -33,6 +33,7 @@ class User(GaeAbstractDatastoreUser):
     User model - to track and store user data
     """
     full_name = models.CharField(max_length=200, null=True)
+    profile_image_url = models.CharField(max_length=255, null=True)
     oauth_user_id = CharOrNoneField(
         max_length=50, blank=True, null=True, unique=True, default=None)
     access_token = models.CharField(max_length=200, blank=True)
