@@ -128,8 +128,10 @@ class ProjectCreateViewTestCase(TestCase):
             })
 
         self.assertEqual(302, response.status_code)
+        project = ProjectFactory._meta.model.objects.get()
         self.assertEqual(
-            response._headers['location'][1], '/')
+            response._headers['location'][1], '/project/view/{}/'.format(
+                project.pk))
         project = ProjectFactory._meta.model.objects.get()
         self.assertEqual(project.name, 'Foo')
         self.assertEqual(project.owner, logged_in_user)

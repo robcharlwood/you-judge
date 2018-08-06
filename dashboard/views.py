@@ -50,7 +50,7 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
 
     def get_success_url(self):
-        return reverse('dashboard:dashboard')
+        return reverse('dashboard:project_view', kwargs={'pk': self.object.pk})
 
     def form_valid(self, form):
         messages.success(self.request, 'Project created succesfully!')
