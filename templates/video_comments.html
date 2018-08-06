@@ -29,15 +29,16 @@
           <div class="mdl-list__item-secondary-action">
                 {% if not comment.analyzed_comment %}
                 <div class="mdl-spinner mdl-js-spinner is-active"></div>
-                {% endif %}
-                {% if comment.analyzed_comment.documentSentiment.score > 0 %}
-                    <i class="material-icons" style="color: green;">sentiment_very_satisfied</i>
-                {% endif %}
-                {% if comment.analyzed_comment.documentSentiment.score < 0 %}
-                    <i class="material-icons" style="color: red;">sentiment_very_dissatisfied</i>
-                {% endif %}
-                {% if comment.analyzed_comment.documentSentiment.score == 0 %}
-                    <i class="material-icons">sentiment_satisfied</i>
+                {% else %}
+                  {% if comment.analyzed_comment.documentSentiment.score > 0 %}
+                      <i class="material-icons" style="color: green;">sentiment_very_satisfied</i>
+                  {% endif %}
+                  {% if comment.analyzed_comment.documentSentiment.score < 0 %}
+                      <i class="material-icons" style="color: red;">sentiment_very_dissatisfied</i>
+                  {% endif %}
+                  {% if comment.analyzed_comment.documentSentiment.score == 0 %}
+                      <i class="material-icons">sentiment_satisfied</i>
+                  {% endif %}
                 {% endif %}
             </div>
         </span>
