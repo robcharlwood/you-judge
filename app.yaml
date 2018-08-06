@@ -1,5 +1,5 @@
 application: you-judge-app
-version: 0-0-1
+version: 0-0-3
 api_version: 1
 runtime: python27
 threadsafe: true
