@@ -27,9 +27,9 @@
 
                 <p>This video is generally {% sentiment_display object.analyzed_transcript.documentSentiment.score %} in content</p>
 
-                <ul class="demo-list-three mdl-list">
+                <ul class="demo-list-three mdl-list mdl-shadow--2dp">
                   {% for sentence in object.analyzed_transcript.sentences %}
-                    <li style="padding-left: 0;" class="mdl-list__item mdl-list__item--three-line">
+                    <li style="padding-left: 20px; font-size: 14px; color: rgba(0, 0, 0, 0.54); line-height: 18px;" class="mdl-list__item">
                       <span class="mdl-list__item-primary-content">
                         <span class="mdl-list__item-text-body">
                           {{ sentence.text.content }}

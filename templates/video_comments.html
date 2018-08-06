@@ -17,19 +17,16 @@
 </div>
 
 <div class="mdl-cell--12-col">
-  <h3>Comment Analysis</h3>
+  <h5>Comment Analysis <i class="material-icons" style="font-size: 26px;">comment</i></h5>
   {% if object_list|length > 0 %}
   <ul class="demo-list-three mdl-list">
       {% for comment in object_list %}
-        <li class="mdl-list__item mdl-list__item--three-line">
+        <li class="mdl-list__item mdl-shadow--2dp" style="padding: 20px; margin-bottom: 20px; font-size: 14px; color: rgba(0, 0, 0, 0.54); line-height: 18px;">
           <span class="mdl-list__item-primary-content">
-
-            <i class="mdl-list__item-avatar" style="background-position: center;
-    background-repeat: no-repeat;
-    background-size: 100%; background-image: url('{{ comment.author_profile_image_url }}');"></i>
-            <span>{{ comment.author_display_name }}</span>
             <span class="mdl-list__item-text-body">
-              {{ comment.comment_raw }}
+              <span><strong>{{ comment.author_display_name }}</strong></span><br/>
+              <span>Published: {{ comment.published }}</span><br/><br/>
+              <span>{{ comment.comment_raw }}</span>
             </span>
           </span>
           <span class="mdl-list__item-secondary-content">
