@@ -35,13 +35,25 @@
                   <div class="mdl-spinner mdl-js-spinner is-active"></div>
                   {% else %}
                     {% if comment.analyzed_comment.documentSentiment.score > 0 %}
-                        <i class="material-icons" style="color: green;">sentiment_very_satisfied</i>
+                        <i class="material-icons" id="tt{{ forloop.counter0 }}" style="color: green;">sentiment_very_satisfied</i>
+                        <div class="mdl-tooltip" data-mdl-for="tt{{ forloop.counter0 }}">
+                          Sentiment: {{ comment.sentiment }}<br/>
+                          Magnitude: {{ comment.magnitude }}
+                        </div>
                     {% endif %}
                     {% if comment.analyzed_comment.documentSentiment.score < 0 %}
-                        <i class="material-icons" style="color: red;">sentiment_very_dissatisfied</i>
+                        <i class="material-icons" id="tt{{ forloop.counter0 }}" style="color: red;">sentiment_very_dissatisfied</i>
+                        <div class="mdl-tooltip" data-mdl-for="tt{{ forloop.counter0 }}">
+                          Sentiment: {{ comment.sentiment }}<br/>
+                          Magnitude: {{ comment.magnitude }}
+                        </div>
                     {% endif %}
                     {% if comment.analyzed_comment.documentSentiment.score == 0 %}
-                        <i class="material-icons">sentiment_satisfied</i>
+                        <i class="material-icons" id="tt{{ forloop.counter0 }}">sentiment_satisfied</i>
+                        <div class="mdl-tooltip" data-mdl-for="tt{{ forloop.counter0 }}">
+                          Sentiment: {{ comment.sentiment }}<br/>
+                          Magnitude: {{ comment.magnitude }}
+                        </div>
                     {% endif %}
                   {% endif %}
               </div>

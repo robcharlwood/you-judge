@@ -38,13 +38,25 @@
                       <span class="mdl-list__item-secondary-content">
                         <div class="mdl-list__item-secondary-action">
                             {% if sentence.sentiment.score > 0 %}
-                                <i class="material-icons" style="color: green;">sentiment_very_satisfied</i>
+                                <i class="material-icons" id="tt{{ forloop.counter0 }}" style="color: green;">sentiment_very_satisfied</i>
+                                <div class="mdl-tooltip" data-mdl-for="tt{{ forloop.counter0 }}">
+                                  Sentiment: {{ sentence.sentiment.score }}<br/>
+                                  Magnitude: {{ sentence.sentiment.magnitude }}
+                                </div>
                             {% endif %}
                             {% if sentence.sentiment.score < 0 %}
-                                <i class="material-icons" style="color: red;">sentiment_very_dissatisfied</i>
+                                <i class="material-icons" id="tt{{ forloop.counter0 }}" style="color: red;">sentiment_very_dissatisfied</i>
+                                <div class="mdl-tooltip" data-mdl-for="tt{{ forloop.counter0 }}">
+                                  Sentiment: {{ sentence.sentiment.score }}<br/>
+                                  Magnitude: {{ sentence.sentiment.magnitude }}
+                                </div>
                             {% endif %}
                             {% if sentence.sentiment.score == 0 %}
-                                <i class="material-icons">sentiment_satisfied</i>
+                                <i class="material-icons" id="tt{{ forloop.counter0 }}">sentiment_satisfied</i>
+                                <div class="mdl-tooltip" data-mdl-for="tt{{ forloop.counter0 }}">
+                                  Sentiment: {{ sentence.sentiment.score }}<br/>
+                                  Magnitude: {{ sentence.sentiment.magnitude }}
+                                </div>
                             {% endif %}
                           </div>
                       </span>
