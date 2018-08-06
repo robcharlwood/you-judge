@@ -9,13 +9,55 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-    {% if object.analyzed_transcript %}
-    <h2>Analysed Transcript</h2>
-        <ul>
-        {% for sentence in object.analyzed_transcript.sentences %}
-            <li style="{% if sentence.sentiment.score < 0 %}background-color:red{% else %}{% if sentence.sentiment.score > 0 %}background-color:green{% else %}{% if sentence.sentiment.score == 0 %}background-color:grey{% endif %}{% endif %}{% endif %}">{{ sentence.text.content }}</li>
-        {% endfor %}
-        </ul>
+<div style="background-color: #ffffff;">
+  <a href="{% url 'dashboard:video_view' object.project_id object.pk %}" style="color: #757575;" class="mdl-layout__tab">Overview</a>
+  <a href="#"  style="color: #757575; border-bottom: 2px solid rgb(244, 67, 54);" class="mdl-layout__tab">Transcript Analysis</a>
+  <a href="{% url 'dashboard:video_comment_view' object.project.pk object.pk %}"  style="color: #757575;" class="mdl-layout__tab">Comment Analysis</a>
+</div>
+
+<div class="mdl-cell--12-col">
+
+    {% if object.transcript %}
+        {% if object.transcript and not object.analyzed_transcript %}
+            <h5>Transcript Analysis in progress...</h5>
+            <div class="mdl-spinner mdl-js-spinner is-active"></div>
+        {% else %}
+            {% if object.transcript and object.analyzed_transcript %}
+                <h5>Analysed Transcript <i class="material-icons" style="font-size: 26px;">closed_captions</i></h5>
+
+                <p>This video is generally {% sentiment_display object.analyzed_transcript.documentSentiment.score %} in content</p>
+
+                <ul class="demo-list-three mdl-list">
+                  {% for sentence in object.analyzed_transcript.sentences %}
+                    <li style="padding-left: 0;" class="mdl-list__item mdl-list__item--three-line">
+                      <span class="mdl-list__item-primary-content">
+                        <span class="mdl-list__item-text-body">
+                          {{ sentence.text.content }}
+                        </span>
+                      </span>
+                      <span class="mdl-list__item-secondary-content">
+                        <div class="mdl-list__item-secondary-action">
+                            {% if sentence.sentiment.score > 0 %}
+                                <i class="material-icons" style="color: green;">sentiment_very_satisfied</i>
+                            {% endif %}
+                            {% if sentence.sentiment.score < 0 %}
+                                <i class="material-icons" style="color: red;">sentiment_very_dissatisfied</i>
+                            {% endif %}
+                            {% if sentence.sentiment.score == 0 %}
+                                <i class="material-icons">sentiment_satisfied</i>
+                            {% endif %}
+                          </div>
+                      </span>
+                    </li>
+                  {% endfor %}
+                </ul>
+            {% endif %}
+        {% endif %}
+    {% else %}
+        <h5>Transcript Missing</h5>
+        <p>A transcript could not be found for this video, so we are unable to analyze the content! Sorry!</p>
     {% endif %}
+
+</div>
 
 {% endblock content %}
