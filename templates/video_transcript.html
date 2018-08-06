@@ -19,7 +19,7 @@
 
     {% if object.transcript %}
         {% if object.transcript and not object.analyzed_transcript %}
-            <h5>Transcript Analysis in progress...</h5>
+            <h5>Transcript analysis in progress...</h5>
             <div class="mdl-spinner mdl-js-spinner is-active"></div>
         {% else %}
             {% if object.transcript and object.analyzed_transcript %}
@@ -54,8 +54,13 @@
             {% endif %}
         {% endif %}
     {% else %}
-        <h5>Transcript Missing</h5>
+      {% if not object.transcript_failed %}
+        <h5>Attempting to retrieve transcript...</h5>
+        <div class="mdl-spinner mdl-js-spinner is-active"></div>
+      {% else %}
+        <h5>Transcript missing</h5>
         <p>A transcript could not be found for this video, so we are unable to analyze the content! Sorry!</p>
+      {% endif %}
     {% endif %}
 
 </div>

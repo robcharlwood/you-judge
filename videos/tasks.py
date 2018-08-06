@@ -120,3 +120,6 @@ def youtube_import_transcript(video_pk):
         video.save()
         deferred.defer(
             cloudnlp_analyze_transcript, video.pk, _queue='analyze')
+    else:
+        video.transcript_failed = True
+        video.save()

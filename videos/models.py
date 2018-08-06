@@ -18,6 +18,7 @@ class Video(models.Model):
     sentiment = models.FloatField(default=0)
     magnitude = models.FloatField(default=0)
     analyzed_transcript = JSONField(blank=True, null=True)
+    transcript_failed = models.BooleanField(default=False)
     # you tube specific data
     youtube_id = models.CharField(max_length=25)
     name = models.CharField(max_length=255)
