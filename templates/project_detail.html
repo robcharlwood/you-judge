@@ -18,7 +18,7 @@
 <form action="{% url 'dashboard:video_search' object.pk %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="mdl-textfield mdl-js-textfield">
-        <input class="mdl-textfield__input" type="text" name="keywords" id="id_keywords" required="" maxlength="100" placeholder="Search YouTube...">
+        <input class="mdl-textfield__input" autocomplete="off" type="text" name="keywords" id="id_keywords" required="" maxlength="100" placeholder="Add videos from YouTube...">
     </div>
     <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">
         <i class="material-icons">search</i>
