@@ -9,23 +9,45 @@
 
 {% block content %}
 
-<h1>YouTube Search Results</h1>
-<p>Please check the videos that you would like to add to your project.</p>
+<div class="mdl-cell--12-col">
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text">
+        <h2 class="mdl-card__title-text">YouTube Search Results</h2>
+    </div>
+    <div class="mdl-color-text--grey-600 mdl-card__supporting-text">
+        <p>Please select the video you would like to add to your project: {{ project.name }}</p>
+    </div>
+</div>
 
 <form action="{% url 'dashboard:video_add' project.pk %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ formset.management_form }}
-    <ul>
-    {% for form in formset %}
-        <li>{{ form.add }} <img src="{{ form.initial.thumbnail_default }}" /> {{ form.initial.name }}
-        {% for hidden_field in form.hidden_fields %}
-            {{ hidden_field.errors }}
-            {{ hidden_field }}
+    <table class="mdl-data-table mdl-shadow--2dp mdl-cell--12-col">
+      <tbody>
+        {% for form in formset %}
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{{ form.add.auto_id }}">
+                        {{ form.add }}
+                    </label>
+                    {% for hidden_field in form.hidden_fields %}
+                        {{ hidden_field.errors }}
+                        {{ hidden_field }}
+                    {% endfor %}
+                    {{ form.description }}
+                </td>
+                <td class="mdl-data-table__cell--non-numeric"><img src="{{ form.initial.thumbnail_default }}" /></td>
+                <td class="mdl-data-table__cell--non-numeric">{{ form.initial.name }}</td>
+            </tr>
         {% endfor %}
-        {{ form.description }}</li>
-    {% endfor %}
-    </ul>
-    <button type="cancel" onclick="window.location='{% url 'dashboard:project_view' project.pk %}';return false;">Cancel</button>
-    <input type="submit" value="Add to project" />
+      </tbody>
+    </table>
+    <div class="mdl-cell--12-col">
+        <div class="mdl-color-text--grey-600 mdl-card__supporting-text">
+            <div class="mdl-layout-spacer"></div>
+            <button type="cancel" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" onclick="window.location='{% url 'dashboard:project_view' project.pk %}';return false;">Cancel</button>&nbsp;&nbsp;
+            <input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" value="Add to project" />
+        </div>
+    </div>
 </form>
+
 {% endblock content %}
