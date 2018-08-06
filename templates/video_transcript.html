@@ -9,12 +9,6 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-    <ul>
-        <li><a href="{% url 'dashboard:dashboard' %}">Dashboard</a></li>
-        <li><a href="{% url 'dashboard:project_view' object.project_id %}">{{ object.project.name }}</a></li>
-        <li><a href="{% url 'dashboard:video_view' object.project_id object.pk %}">{{ object.name }}</a></li>
-    </ul>
-
     {% if object.analyzed_transcript %}
     <h2>Analysed Transcript</h2>
         <ul>
