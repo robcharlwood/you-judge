@@ -14,3 +14,6 @@ class Project(models.Model):
 
     def __unicode__(self):
         return u'{}'.format(self.name)
+
+    class Meta:
+        ordering = ['-created']

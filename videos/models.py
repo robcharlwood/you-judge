@@ -49,6 +49,9 @@ class Video(models.Model):
             return True
         return False
 
+    class Meta:
+        ordering = ['-published']
+
 
 class VideoComment(models.Model):
     """
@@ -76,6 +79,9 @@ class VideoComment(models.Model):
         if self.sentiment and self.magnitude and self.analyzed_comment:
             return True
         return False
+
+    class Meta:
+        ordering = ['-updated', '-published']
 
 
 # connect up signal handling
