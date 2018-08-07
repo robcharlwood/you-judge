@@ -31,9 +31,21 @@ indexes:
 
 - kind: videos_videocomment
   properties:
+  - name: updated
+    direction: desc
+  - name: published
+    direction: desc
+
+- kind: videos_videocomment
+  properties:
   - name: video_id
   - name: published
     direction: desc
+
+- kind: videos_videocomment
+  properties:
+  - name: video_id
+  - name: sentiment
 
 - kind: videos_videocomment
   properties:

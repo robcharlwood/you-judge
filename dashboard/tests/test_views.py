@@ -492,7 +492,24 @@ class VideoDetailViewTestCase(TestCase):
     def test_200_ok_logged_in(self):
         logged_in_user = AuthenticatedUserFactory()
         project = ProjectFactory(owner=logged_in_user)
-        video = VideoFactory(project=project, owner=logged_in_user)
+        video = VideoFactory(
+            project=project, owner=logged_in_user,
+            analyzed_transcript={'sentences': [{
+                'sentiment': {
+                    'score': -0.8,
+                    'magnitude': 3.0
+                }
+            }, {
+                'sentiment': {
+                    'score': 0.8,
+                    'magnitude': 3.0
+                }
+            }, {
+                'sentiment': {
+                    'score': 0.0,
+                    'magnitude': 0.0
+                }
+            }]})
         request = self.rf.get('/project/{}/video/view/{}'.format(
             project.pk, video.pk))
         request.user = logged_in_user

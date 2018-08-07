@@ -51,6 +51,8 @@ def cloudnlp_analyze_comment(comment_pk):
         client = cloudnlp.Client()
         analysis = client.analyze_sentiment(comment.comment_raw)
     except Exception:
+        comment.analysis_failed = True
+        comment.save()
         logger.exception(
             'Error performing sentiment analysis on comment %r',
             comment.youtube_id)

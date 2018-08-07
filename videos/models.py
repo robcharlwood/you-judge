@@ -37,7 +37,7 @@ class Video(models.Model):
 
     @property
     def analysis_complete(self):
-        if self.sentiment and self.magnitude and self.analyzed_transcript:
+        if self.analyzed_transcript:
             return True
         return False
 
@@ -49,6 +49,16 @@ class Video(models.Model):
         if self.transcript:
             return True
         return False
+
+    @property
+    def comment_analysis_complete(self):
+        """
+        Returns True if all the videos comments have been analyzed
+        """
+        for comment in self.videocomment_set.all():
+            if not comment.analysis_complete:
+                return False
+        return True
 
     class Meta:
         ordering = ['-published']
@@ -63,6 +73,7 @@ class VideoComment(models.Model):
     sentiment = models.FloatField(default=0)
     magnitude = models.FloatField(default=0)
     analyzed_comment = JSONField(blank=True, null=True)
+    analysis_failed = models.BooleanField(default=False)
     # you tube specific data
     youtube_id = models.CharField(max_length=100)
     author_display_name = models.CharField(max_length=100)
@@ -77,7 +88,10 @@ class VideoComment(models.Model):
 
     @property
     def analysis_complete(self):
-        if self.sentiment and self.magnitude and self.analyzed_comment:
+        """
+        If our comment has an analyzed comment, then analysis was successful
+        """
+        if self.analyzed_comment:
             return True
         return False
 

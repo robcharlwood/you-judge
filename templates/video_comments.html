@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load charts %}
 
 {% block breadcrumbs %}
     <a href="{% url 'dashboard:dashboard' %}" class="mdl-layout__tab">Dashboard</a> /
@@ -31,8 +32,14 @@
           </span>
           <span class="mdl-list__item-secondary-content">
             <div class="mdl-list__item-secondary-action">
+                {% if comment.analysis_failed %}
+                  <i class="material-icons" id="tt{{ forloop.counter0 }}" style="color: orange;">warning</i>
+                  <div class="mdl-tooltip" data-mdl-for="tt{{ forloop.counter0 }}">
+                    Failed to analyse comment!
+                  </div>
+                {% else %}
                   {% if not comment.analyzed_comment %}
-                  <div class="mdl-spinner mdl-js-spinner is-active"></div>
+                    <div class="mdl-spinner mdl-js-spinner is-active"></div>
                   {% else %}
                     {% if comment.analyzed_comment.documentSentiment.score > 0 %}
                         <i class="material-icons" id="tt{{ forloop.counter0 }}" style="color: green;">sentiment_very_satisfied</i>
@@ -56,10 +63,19 @@
                         </div>
                     {% endif %}
                   {% endif %}
+                {% endif %}
               </div>
           </span>
         </li>
       {% endfor %}
+
+      {% if video.comment_analysis_complete %}
+        <h5>Statistics</h5>
+        {% pie_chart 'Sentiment - Top 50 Most relevant comments' comment_chart_headers comment_chart_data %}
+      {% else %}
+        <h5>Statistics</h5>
+        <p>Sorry, we are either currently analysing were unable to analyse all user comments and so can't provide you with accurate charts and graphs</p>
+      {% endif %}
   </ul>
   {% else %}
     <p>There are no comments on this video, or the owner has turned off commenting on this video. We are unable to analyze the content! Sorry!</p>

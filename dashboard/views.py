@@ -29,6 +29,54 @@ class LoginRequiredMixin(object):
         return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
 
 
+class TranscriptAnalysisChartMixin(object):
+    """
+    Mixin for displaying transcript analysis charts and graphs across views
+    """
+    def get_context_data(self, **kwargs):
+        context = super(TranscriptAnalysisChartMixin, self).get_context_data(
+            **kwargs)
+        positive_count = 0
+        negative_count = 0
+        neutral_count = 0
+        if self.object.analysis_complete:
+            for sentence in self.object.analyzed_transcript['sentences']:
+                if sentence['sentiment']['score'] > 0:
+                    positive_count += 1
+                elif sentence['sentiment']['score'] < 0:
+                    negative_count += 1
+                elif sentence['sentiment']['score'] == 0:
+                    neutral_count += 1
+        context['transcript_chart_headers'] = [
+            'Sentiment', 'Percentage of content']
+        context['transcript_chart_data'] = {
+            'Positive': positive_count,
+            'Negative': negative_count,
+            'Neutral': neutral_count,
+        }
+        return context
+
+
+class CommentAnalysisChartMixin(object):
+    """
+    Mixin for comment analysis charts and graphs across views
+    """
+    def get_context_data(self, **kwargs):
+        if isinstance(self, VideoCommentListView):
+            qs = self.get_queryset()
+        else:
+            qs = self.object.videocomment_set.all()
+        context = super(CommentAnalysisChartMixin, self).get_context_data(
+            **kwargs)
+        context['comment_chart_headers'] = ['Sentiment', 'Percentage']
+        context['comment_chart_data'] = {
+            'Positive': qs.filter(sentiment__gt=0).count(),
+            'Negative': qs.filter(sentiment__lt=0).count(),
+            'Neutral': qs.filter(sentiment=0).count(),
+        }
+        return context
+
+
 class DashboardView(LoginRequiredMixin, ListView):
     """
     Dashboard - Home view (lists all projects)
@@ -180,7 +228,9 @@ class VideoAddView(LoginRequiredMixin, View):
             'dashboard:project_view', kwargs={'pk': project.pk}))
 
 
-class VideoDetailView(LoginRequiredMixin, DetailView):
+class VideoDetailView(
+        LoginRequiredMixin, TranscriptAnalysisChartMixin,
+        CommentAnalysisChartMixin, DetailView):
     """
     Allows users to view a project
     """
@@ -193,7 +243,8 @@ class VideoDetailView(LoginRequiredMixin, DetailView):
                 project=self.kwargs['project_pk'], owner=self.request.user))
 
 
-class VideoCommentListView(LoginRequiredMixin, ListView):
+class VideoCommentListView(
+        LoginRequiredMixin, CommentAnalysisChartMixin, ListView):
     model = VideoComment
     template_name = 'video_comments.html'
 
@@ -217,7 +268,8 @@ class VideoCommentListView(LoginRequiredMixin, ListView):
         return context
 
 
-class VideoTranscriptView(LoginRequiredMixin, DetailView):
+class VideoTranscriptView(
+        LoginRequiredMixin, TranscriptAnalysisChartMixin, DetailView):
     """
     Allows users to view a project
     """

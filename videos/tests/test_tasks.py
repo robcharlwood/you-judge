@@ -96,6 +96,7 @@ class YoutubeImportTranscriptTestCase(TestCase):
             self.assertEqual(None, resp)
         video.refresh_from_db()
         self.assertEqual('', video.transcript)
+        self.assertEqual(False, video.transcript_failed)
 
     def test_no_transcript_returned(self):
         video = VideoFactory(transcript='')
@@ -107,6 +108,7 @@ class YoutubeImportTranscriptTestCase(TestCase):
             self.assertEqual(None, resp)
         video.refresh_from_db()
         self.assertEqual('', video.transcript)
+        self.assertEqual(True, video.transcript_failed)
 
     def test_ok(self):
         video = VideoFactory(transcript='')
@@ -118,6 +120,7 @@ class YoutubeImportTranscriptTestCase(TestCase):
             self.assertEqual(None, resp)
         video.refresh_from_db()
         self.assertEqual(video.transcript, 'Im a transcript.')
+        self.assertEqual(False, video.transcript_failed)
 
 
 class CloudnlpAnalyzeTranscriptTestCase(TestCase):
@@ -184,6 +187,7 @@ class CloudnlpAnalyzeCommentTestCase(TestCase):
         self.assertEqual({}, comment.analyzed_comment)
         self.assertEqual(0, comment.sentiment)
         self.assertEqual(0, comment.magnitude)
+        self.assertEqual(True, comment.analysis_failed)
 
     def test_ok(self):
         mock_analysis = {
@@ -203,3 +207,4 @@ class CloudnlpAnalyzeCommentTestCase(TestCase):
         self.assertEqual(mock_analysis, comment.analyzed_comment)
         self.assertEqual(-0.8, comment.sentiment)
         self.assertEqual(17.0, comment.magnitude)
+        self.assertEqual(False, comment.analysis_failed)
