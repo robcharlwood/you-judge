@@ -1,0 +1,24 @@
+
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+      var data = google.visualization.arrayToDataTable([
+        [{% for header in headers %}"{{ header }}"{% if not forloop.last %}, {% endif %}{% endfor %}],
+        {% for k, v in values.items %}
+          ["{{ k }}", {{ v }}]{% if not forloop.last %},{% endif %}
+        {% endfor %}
+      ]);
+
+      var options = {
+        title: '{{ title }}'
+      };
+
+      var chart = new google.visualization.PieChart(document.getElementById('piechart-{{ id }}'));
+      chart.draw(data, options);
+    }
+  </script>
+  <div id="piechart-{{ id }}" style="width: {{ width }}; height: {{ height  }}; float: left;"></div>
+
