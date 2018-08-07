@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load sentiment %}
+{% load sentiment charts %}
 
 {% block breadcrumbs %}
     <a href="{% url 'dashboard:dashboard' %}" class="mdl-layout__tab">Dashboard</a> /
@@ -64,6 +64,15 @@
                   {% endfor %}
                 </ul>
             {% endif %}
+
+          {% if video.analysis_complete %}
+            <h5>Statistics</h5>
+            {% pie_chart 'Content sentiment' transcript_chart_headers transcript_chart_data width="100%" %}
+          {% else %}
+            <h5>Statistics</h5>
+            <p>Sorry, we are either currently analysing or were unable to analyse the transcript for this video. So we can't provide you with accurate charts and graphs</p>
+          {% endif %}
+
         {% endif %}
     {% else %}
       {% if not object.transcript_failed %}

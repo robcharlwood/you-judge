@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load charts %}
 
 {% block breadcrumbs %}
     <a href="{% url 'dashboard:dashboard' %}" class="mdl-layout__tab">Dashboard</a> /
@@ -25,5 +26,21 @@
         src="https://www.youtube.com/embed/{{ object.youtube_id }}?cc_load_policy=1autoplay=0&origin={{ request.scheme }}://{{ request.get_host }}"
         frameborder="0"
     ></iframe>
+
+
+    <h5>Statistics</h5>
+    {% if object.analysis_complete %}
+        {% pie_chart 'Content sentiment' transcript_chart_headers transcript_chart_data width="49%" %}
+    {% endif %}
+
+    {% if object.comment_analysis_complete %}
+        {% pie_chart 'Sentiment - Top 50 Most relevant comments' comment_chart_headers comment_chart_data width="49%" %}
+    {% endif %}
+
+    {% if not object.analysis_complete or not object.comment_analysis_complete %}
+        <p>Sorry, we are either currently analysing were unable to analyse all relevant data and so can't provide you with all the accurate charts and graphs that we'd like to</p>
+    {% endif %}
+
+
 </div>
 {% endblock content %}
