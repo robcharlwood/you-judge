@@ -25,6 +25,16 @@ class VideoModelTestCase(TestCase):
         video.save()
         self.assertTrue(video.analysis_complete)
 
+    def test_comment_analysis_complete_property(self):
+        video = VideoFactory(sentiment=0, magnitude=0, analyzed_transcript={})
+        VideoCommentFactory(
+            video=video, analyzed_comment={'foo': 'foo'})
+        comment_2 = VideoCommentFactory(video=video, analyzed_comment={})
+        self.assertFalse(video.comment_analysis_complete)
+        comment_2.analyzed_comment = {'bar': 'bar'}
+        comment_2.save()
+        self.assertTrue(video.comment_analysis_complete)
+
 
 class VideoCommentTestCase(TestCase):
     def test_unicode_method(self):
