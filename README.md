@@ -75,6 +75,10 @@ This project adheres to pep8 standards and we use isort to handle the sorting of
 The Python code is all unit tested as a bare minimum with integration and end to end tests
 added for particularly complex parts of functionality.
 
+## Calling all Front end Engineers
+
+This project is accepting pull requests on pretty much anything front end. I'm a backend Engineer by trade, and whilst I can make things look good, I can't do it as well as you lot can. :) Themes, JS, optimisations, progressive enhancement etc its all good! All PR's very, very welcome.
+
 ## Authors
 
 * **Rob Charlwood**
