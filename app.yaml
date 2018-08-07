@@ -15,6 +15,9 @@ libraries:
 builtins:
 - remote_api: on
 
+inbound_services:
+- warmup
+
 handlers:
 - url: /_ah/(mapreduce|queue|warmup|internalupload).*
   script: core.wsgi.application
