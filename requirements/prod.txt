@@ -1,6 +1,6 @@
 djangae==0.9.11
 django-session-csrf==0.7.1
-django==1.11.23
+django==1.11.28
 google-endpoints==4.5.0
 GoogleAppEngineCloudStorageClient==1.9.22.1
 google-api-python-client==1.6.7
